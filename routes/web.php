@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\ProductImageController;
+use App\Http\Controllers\Home\HomeController as HomeHomeController;
 use App\Http\Controllers\Home\PayTestController;
 
 /*
@@ -65,6 +66,8 @@ Route::prefix('/admin-panel')->name('admin.')->group(function(){
 
 
 
-Route::get('payment' , [PayTestController::class , 'index'])->name('payment');
-Route::post('payment' , [PayTestController::class , 'pay'])->name('payment.pay');
-Route::get('payment_verify' , [PayTestController::class , 'pay_verify'])->name('payment.pay.verify');
+Route::prefix('/')->name('home.')->group(function(){
+
+    route::get('' , [HomeHomeController::class , 'index'])->name('dashboard');
+
+});

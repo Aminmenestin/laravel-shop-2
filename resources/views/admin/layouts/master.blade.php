@@ -59,7 +59,7 @@
     @include('admin.commons.logout-modal')
 
 
-    @vite(['resources/js/app.js'])
+    @vite(['resources/js/admin/app.js'])
 
     @yield('script')
 
