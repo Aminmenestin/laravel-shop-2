@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('image');
             $table->string('button')->nullable();
+            $table->string('button_link')->nullable();
             $table->integer('banner_position');
             $table->integer('priority');
             $table->boolean('is_active');

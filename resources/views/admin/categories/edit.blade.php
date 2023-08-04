@@ -207,8 +207,8 @@
                     <div class="form-group col-md-3">
                         <label for="is_active">وضعیت</label>
                         <select class="form-control" id="is_active">
-                            <option value="1" selected>فعال</option>
-                            <option value="0">غیرفعال</option>
+                            <option value="1" {{ $category->is_active == 1 ? 'selected' : '' }}>فعال</option>
+                            <option value="0" {{ $category->is_active != 1 ? 'selected' : '' }}>غیرفعال</option>
                         </select>
                     </div>
 

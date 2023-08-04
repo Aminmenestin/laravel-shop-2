@@ -31,8 +31,12 @@ class Category extends Model
 
 
     public function parent(){
-        return $this->belongsTo(Category::class , 'parent_id');
+        return $this->belongsTo(Category::class , 'parent_id')->where('is_active' , 1);
     }
 
+
+    public function children(){
+        return $this->hasMany(Category::class , 'parent_id')->where('is_active' , 1);
+    }
 
 }

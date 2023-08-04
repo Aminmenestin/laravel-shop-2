@@ -68,6 +68,6 @@ Route::prefix('/admin-panel')->name('admin.')->group(function(){
 
 Route::prefix('/')->name('home.')->group(function(){
 
-    route::get('' , [HomeHomeController::class , 'index'])->name('dashboard');
+    route::get('' , [HomeHomeController::class , 'index'])->name('index');
 
 });
