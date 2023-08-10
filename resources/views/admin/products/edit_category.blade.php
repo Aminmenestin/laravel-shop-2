@@ -4,7 +4,7 @@
     - edit product category
 @endsection
 
-@section('script')
+{{-- @section('script')
     <script type="module">
         $('#categorySelect').selectpicker({
             'title': 'انتخاب دسته بندی'
@@ -59,6 +59,14 @@
         $("#czContainer").czMore();
 
     </script>
+@endsection --}}
+
+@section('script')
+    <script type="module">
+        $('#categorySelect').selectpicker({
+            'title': 'انتخاب دسته بندی'
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -68,7 +76,7 @@
 
         <div class="col-xl-12 col-md-12 mb-4 p-4 bg-white">
             <div class="mb-4 text-center text-md-right">
-                <h5 class="font-weight-bold">ویرایش دسته بندی محصول : {{ $product->name }}</h5>
+                <h5 class="font-weight-bold">ویرایش دسته بندی محصول : </h5>
             </div>
             <hr>
 
@@ -81,19 +89,13 @@
                 @csrf
 
                 <div class="form-row">
-
-                    {{-- Category&Attributes Section --}}
-
                     <div class="col-md-12">
                         <div class="row justify-content-center">
                             <div class="form-group col-md-3">
                                 <label for="category_id">دسته بندی</label>
                                 <select id="categorySelect" name="category_id" class="form-control" data-live-search="true">
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}" {{ $category->id == $product->category->id ? 'selected' : '' }}>{{ $category->name }} -
-                                            {{ $category->parent->name }}
-                                        </option>
-                                    @endforeach
+                                   <option value="">دسته 1</option>
+                                   <option value="">دسته 2</option>
                                 </select>
                             </div>
                         </div>

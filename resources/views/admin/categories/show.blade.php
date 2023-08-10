@@ -28,13 +28,7 @@
 
                 <div class="form-group col-md-3">
                     <label>والد</label>
-                    <div class="form-control div-disabled">
-                        @if ($category->parent_id == 0)
-                            {{ $category->name }}
-                        @else
-                            {{ $category->parent->name }}
-                        @endif
-                    </div>
+                        <input class="form-control" type="text" value="{{$category->parent->name}}" disabled>
                 </div>
 
                 <div class="form-group col-md-3">
@@ -65,17 +59,17 @@
                         <div class="col-md-3">
                             <label>ویژگی ها</label>
                             <div class="form-control div-disabled">
-                                @foreach ($category->attributes as $attribute)
-                                    {{ $attribute->name }}{{ $loop->last ? '' : '،' }}
-                                @endforeach
+                               @foreach ($category->attributes as  $attribute)
+                                    {{$attribute->name}} {{$loop->last ? '' : ','}}
+                               @endforeach
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <label>ویژگی های قابل فیلتر</label>
                             <div class="form-control div-disabled">
-                                @foreach ($category->attributes()->wherePivot('is_filter' , 1)->get() as $attribute)
-                                    {{ $attribute->name }}{{ $loop->last ? '' : '،' }}
+                                @foreach ($category->attributes()->where('is_filter' , 1)->get() as  $attribute)
+                                {{$attribute->name}} {{$loop->last ? '' : ','}}
                                 @endforeach
                             </div>
                         </div>
@@ -83,9 +77,7 @@
                         <div class="col-md-3">
                             <label>ویژگی متغیر</label>
                             <div class="form-control div-disabled">
-                                @foreach ($category->attributes()->wherePivot('is_variation' , 1)->get() as $attribute)
-                                    {{ $attribute->name }}{{ $loop->last ? '' : '،' }}
-                                @endforeach
+                                {{$category->attributes()->where('is_variation' , 1)->get()->first()->name}}
                             </div>
                         </div>
 

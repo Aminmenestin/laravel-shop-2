@@ -109,9 +109,8 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
 
-        // dd($category->attributes()->pluck('id')->toArray());
 
-        $parentCategories = Category::where('parent_id' , 0)->where('is_active' , 1)->get();
+        $parentCategories = Category::where('parent_id' , 0)->get();
 
 
         $attributes = Attribute::get();

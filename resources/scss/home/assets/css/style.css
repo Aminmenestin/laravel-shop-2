@@ -4,10 +4,10 @@
     Version: 1
 
 -----------------------------------------------------------------------------------
-    
+
     CSS INDEX
     ===================
-	
+
     1. Template default CSS
     2. Header style
     3. Slider style
@@ -31,7 +31,7 @@
     21. Compare style
     22. Checkout style
     23. My account style
-    
+
 -----------------------------------------------------------------------------------*/
 @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900|Roboto:300,400,500,700,900");
 @font-face {
@@ -121,7 +121,7 @@ ul {
   margin: 0;
   padding: 0; }
 
-/*-- 
+/*--
     - Common Classes
 -----------------------------------------*/
 .fix {
@@ -832,7 +832,7 @@ a:hover {
   padding-left: 190px; }
 
 /***************************
-    Page section padding 
+    Page section padding
 ****************************/
 .ptb-0 {
   padding: 0; }
@@ -919,7 +919,7 @@ a:hover {
   padding: 310px 0; }
 
 /***************************
-    Page section margin 
+    Page section margin
 ****************************/
 .mtb-0 {
   margin: 0; }
@@ -975,7 +975,7 @@ a:hover {
 .mtb-290 {
   margin: 290px 0; }
 
-/*-- 
+/*--
     - Input Placeholder
 -----------------------------------------*/
 input:-moz-placeholder,
@@ -1044,8 +1044,8 @@ textarea:focus {
 #mobile-menu-active {
   display: none; }
 
-/*-- 
-    Scroll Up 
+/*--
+    Scroll Up
 -----------------------------------------*/
 #scrollUp {
   width: 50px;

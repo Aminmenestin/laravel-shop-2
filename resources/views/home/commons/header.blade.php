@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-xl-2 col-lg-2">
                     <div class="logo pt-40">
-                        <a href="index.html">
+                        <a href="{{route('home.index')}}">
                             <h3 class="font-weight-bold">Shop.ir</h3>
                         </a>
                     </div>
@@ -25,13 +25,17 @@
 
                                     <ul class="mega-menu">
 
+                                        @php
+                                            $parent_categories = APP\Models\Category::where('parent_id' , 0)->where('is_active' , 1)->get();
+                                        @endphp
+
                                         @foreach ($parent_categories as $category)
                                             <li>
-                                                <a class="menu-title" href="#">{{ $category->name }}</a>
+                                                <a class="menu-title" href="{{route('home.shop' , ['category' => $category->slug])}}">{{ $category->name }}</a>
                                                 <ul>
                                                     @foreach ($category->children as $child)
                                                         <li>
-                                                            <a href="shop.html">
+                                                            <a href="{{route('home.shop' , ['category' => $child->slug])}}">
                                                                 {{ $child->name }}
                                                             </a>
                                                         </li>
@@ -43,7 +47,7 @@
                                 </li>
 
                                 <li class="angle-shape">
-                                    <a href="index.html"> صفحه اصلی </a>
+                                    <a href="{{route('home.index')}}"> صفحه اصلی </a>
                                 </li>
                             </ul>
                         </nav>
@@ -133,6 +137,9 @@
                                     <li><a href="login.html">ورود</a></li>
                                     <li>
                                         <a href="register.html">ایجاد حساب</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('admin.dashboard')}}" target="_blank">صفحه ادمین</a>
                                     </li>
                                     <li><a href="my-account.html">پروفایل</a></li>
                                 </ul>

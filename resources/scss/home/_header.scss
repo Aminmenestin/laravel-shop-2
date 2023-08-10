@@ -1,6 +1,6 @@
 
 
-.main-header-wrap { 
+.main-header-wrap {
     @media #{$md-layout} {
         display: none;
     }
@@ -192,7 +192,7 @@
                     visibility: visible;
                 }
             }
-        } 
+        }
     }
 }
 
@@ -665,7 +665,7 @@
                 &:hover {
                     color: $theme-color;
                 }
-                
+
             }
         }
     }
@@ -768,7 +768,7 @@
         opacity: 1;
         visibility: visible;
     }
-} 
+}
 
 .mobile-off-canvas-active {
 	position: fixed;
@@ -937,7 +937,7 @@
                                                 padding: 10px 30px 5px;
                                                 font-size: 14px;
                                                 color: #000000;
-                                                font-weight: 300; 
+                                                font-weight: 300;
                                             }
                                         }
                                     }

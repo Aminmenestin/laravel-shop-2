@@ -93,9 +93,6 @@
                         $('#parent_id').append(withoutParent);
 
                         $.each(response , function(key , val){
-
-                            console.log(val)
-
                             let option = $("<option/>" , {
                                 text : val.name,
                                 value : val.id,
@@ -105,7 +102,7 @@
                             $('#parent_id').append(option)
                         })
                     },
-                    error:function(){
+                    error:function(response){
                         console.log(response)
                     }
                 })
@@ -203,8 +200,8 @@
                         <label for="parent_id">والد</label>
                         <select class="form-control" id="parent_id">
                             <option value="0">بدون والد</option>
-                            @foreach ($parentCategories as $parentCategory)
-                                <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
+                            @foreach ($parentCategories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -219,12 +216,11 @@
 
                     <div class="form-group col-md-3 ">
                         <label for="attribute_ids">ویژگی</label>
-
-                            <select id="attribute_ids" class="form-control" multiple data-live-search="true">
-                                @foreach ($attributes as $attribute)
-                                    <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
-                                @endforeach
-                            </select>
+                        <select id="attribute_ids" class="form-control" multiple data-live-search="true">
+                            @foreach ($attributes as $attribute)
+                                <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
+                            @endforeach
+                        </select>
 
                     </div>
 

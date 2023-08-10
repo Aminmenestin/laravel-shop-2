@@ -28,7 +28,7 @@
                 cursor: pointer;
                 background: rgba(0, 0, 0, 0) url("../../img/icon-img/select.png") no-repeat scroll left 0px center;
                 text-transform: capitalize;
-                
+
             }
         }
         p{
@@ -218,7 +218,7 @@
                 border: 1px solid #000000;
                 display: inline-block;
                 padding: 12px 19px 8px;
-                
+
                 @media #{$lg-layout} {
                     padding: 12px 15px 8px;
                     font-size: 18px;

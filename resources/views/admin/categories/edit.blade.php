@@ -26,6 +26,9 @@
 
             let attributeForFilter = [];
 
+            $("#attributeIsFilterSelect").empty();
+            $("#variationSelect").empty();
+
             attributes.map((attribute) => {
                 $.each(selectedAttributes , function(i,element){
                     if( attribute.id == element ){
@@ -34,8 +37,6 @@
                 });
             });
 
-            $("#attributeIsFilterSelect").find("option").remove();
-            $("#variationSelect").find("option").remove();
             attributeForFilter.forEach((element)=>{
                 let attributeFilterOption = $("<option/>" , {
                     value : element.id,
@@ -197,9 +198,8 @@
                     <div class="form-group col-md-3">
                         <label for="parent_id">والد</label>
                         <select class="form-control" id="parent_id">
-                            <option value="0">بدون والد</option>
                             @foreach ($parentCategories as $parentCategory)
-                                <option value="{{ $parentCategory->id }}" {{$category->parent_id == $parentCategory->id ? 'selected' : ''}} >{{ $parentCategory->name }}</option>
+                            <option value="{{$parentCategory->id}}" {{ $parentCategory->id == $category->id ? 'selected' : '' }} >{{$parentCategory->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -207,17 +207,27 @@
                     <div class="form-group col-md-3">
                         <label for="is_active">وضعیت</label>
                         <select class="form-control" id="is_active">
-                            <option value="1" {{ $category->is_active == 1 ? 'selected' : '' }}>فعال</option>
-                            <option value="0" {{ $category->is_active != 1 ? 'selected' : '' }}>غیرفعال</option>
+                            <option value="1" {{$category->getRawOriginal('is_active') == 1 ? 'selected' : ''}} >فعال
+                            </option>
+                            <option value="0" {{$category->getRawOriginal('is_active') != 1 ? 'selected' : ''}}>غیرفعال
+                            </option>
                         </select>
                     </div>
 
+                    {{-- {{dd($category->attributes)}} --}}
+
                     <div class="form-group col-md-3 ">
                         <label for="attribute_ids">ویژگی</label>
+                        @php
+                           $allCategoryAttr = [];
 
+                           foreach ($category->attributes as $key => $value) {
+                               array_push($allCategoryAttr  , $value->id);
+                            };
+                        @endphp
                             <select id="attribute_ids" class="form-control" multiple data-live-search="true">
                                 @foreach ($attributes as $attribute)
-                                    <option value="{{ $attribute->id }}" {{ in_array($attribute->id , $category->attributes()->pluck('id')->toArray()) ? 'selected' : '' }}>{{ $attribute->name }}</option>
+                                <option value="{{$attribute->id}}" {{  in_array($attribute->id , $allCategoryAttr ) ? 'selected' : '' }}   >{{$attribute->name}}</option>
                                 @endforeach
                             </select>
 
@@ -226,8 +236,9 @@
                     <div class="form-group col-md-3">
                         <label for="attribute_is_filter_ids">انتخاب ویژگی های قابل فیلتر</label>
                         <select id="attributeIsFilterSelect" class="form-control" multiple data-live-search="true">
-                            @foreach ($category->attributes()->where('is_filter' , 1)->get() as $attribute)
-                            <option value="{{ $attribute->id }}" selected >{{ $attribute->name }}</option>
+
+                            @foreach ($category->attributes()->where('is_filter' , 1)->get()  as $attribute)
+                            <option value="{{$attribute->id}}"  selected >{{$attribute->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -235,9 +246,7 @@
                     <div class="form-group col-md-3">
                         <label for="attribute_is_filter_ids">انتخاب ویژگی متغیر</label>
                         <select id="variationSelect" class="form-control" data-live-search="true">
-                            @foreach ($category->attributes as $attribute)
-                            <option value="{{ $attribute->id }}" {{$category->attributes()->wherePivot('is_variation' , 1)->first()->id == $attribute->id ? 'selected' : ''}} >{{ $attribute->name }}</option>
-                            @endforeach
+                            <option value="{{$category->attributes()->where('is_variation' , 1)->get()->first()->id }}"  selected >{{$category->attributes()->where('is_variation' , 1)->get()->first()->name}}</option>
                         </select>
                     </div>
 
@@ -253,7 +262,7 @@
 
                 </div>
 
-                <button class="btn btn-outline-primary mt-5" type="submit">ثبت</button>
+                <button class="btn btn-outline-primary mt-5" type="submit">ویرایش</button>
                 <a href="{{ url()->previous() }}" class="btn btn-dark mt-5 mr-3">بازگشت</a>
             </form>
         </div>

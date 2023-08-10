@@ -38,5 +38,16 @@ class Category extends Model
     public function children(){
         return $this->hasMany(Category::class , 'parent_id')->where('is_active' , 1);
     }
+    public function Randchildren(){
+        return $this->hasMany(Category::class , 'parent_id')->where('is_active' , 1)->inRandomOrder();
+    }
+
+    public function products(){
+        return $this->hasMany(Product::class)->where('is_active' , 1)->where('status' , 1);
+    }
+
+    public function Randproducts(){
+        return $this->hasMany(Product::class)->where('is_active' , 1)->where('status' , 1)->inRandomOrder();
+    }
 
 }

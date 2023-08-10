@@ -4,7 +4,7 @@
     edit products Images
 @endsection
 
-@section('script')
+{{-- @section('script')
     <script>
         // Show File Name
         $('#primary_image').change(function() {
@@ -22,7 +22,7 @@
         });
 
     </script>
-@endsection
+@endsection --}}
 
 @section('content')
 
@@ -46,23 +46,23 @@
                     <div class="card">
                         {{-- {{dd(url(env('PRODUCT_IMAGES_UPLOAD_PATH') . $product->primary_image))}} --}}
                         <img class="card-img-top"
-                            src="{{ url(env('PRODUCT_IMAGES_UPLOAD_PATH') . $product->primary_image) }}"
-                            alt="{{ $product->name }}">
+                            src="{{ asset('home/img/banner/banner-1.png') }}"
+                            alt="">
                     </div>
                 </div>
             </div>
 
             <hr>
-            @if ($product->images != null)
+
             <div class="row">
                 <div class="col-12 col-md-12 mb-5">
                     <h5>تصاویر : </h5>
                 </div>
-                @foreach ($product->images as $image)
+
                     <div class="col-md-3">
                         <div class="card">
-                            <img style="width: 500px ; height: 500px ; object-fit: cover" class="card-img-top" src="{{ url(env('PRODUCT_IMAGES_UPLOAD_PATH') . $image->image) }}"
-                                alt="{{ $product->name }}">
+                            <img style="width: 500px ; height: 500px ; object-fit: cover" class="card-img-top" src="{{ asset('home/img/banner/banner-1.png') }}"
+                                alt="">
                             <div class="card-body text-center">
                                 {{-- <form action="{{ route('admin.products.images.destroy', ['product' => $product->id]) }}" method="post">
                                     @method('DELETE')
@@ -72,27 +72,26 @@
                                 </form> --}}
 
 
-                                <a class="btn btn-danger btn-sm mb-3" href="{{ route('admin.products.images.destroy', ['image_id' =>$image->id ]) }}" data-confirm-delete="true"> حذف</a>
+                                <a class="btn btn-danger btn-sm mb-3" href="" data-confirm-delete="true"> حذف</a>
 
-                                <form action="{{ route('admin.products.images.set_primary', ['product' => $product->id]) }}"
+                                <form action=""
                                     method="post">
-                                    @method('PUT')
-                                    @csrf
-                                    <input type="hidden" name="image_id" value="{{ $image->id }}">
+
+                                    <input type="hidden" name="image_id" value="">
                                     <button class="btn btn-primary btn-sm mb-3" type="submit">انتخاب به عنوان تصویر
                                         اصلی</button>
                                 </form>
                             </div>
                         </div>
                     </div>
-                @endforeach
+
             </div>
 
             <hr>
-            @endif
 
 
-            <form action="{{ route('admin.products.images.add', ['product' => $product->id]) }}" method="POST"
+
+            <form action="" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 <div class="row">

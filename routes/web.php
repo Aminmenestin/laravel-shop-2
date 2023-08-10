@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Home\HomeController as HomeHomeController;
 use App\Http\Controllers\Home\PayTestController;
+use App\Http\Controllers\Home\ShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +69,9 @@ Route::prefix('/admin-panel')->name('admin.')->group(function(){
 
 Route::prefix('/')->name('home.')->group(function(){
 
-    route::get('' , [HomeHomeController::class , 'index'])->name('index');
+    Route::get('' , [HomeHomeController::class , 'index'])->name('index');
+    Route::get('/parent_categories' , [HomeHomeController::class , 'parent_categories'])->name('parent_categories');
+
+    Route::get('/{category:slug}' , [ShopController::class , 'index'])->name('shop');
 
 });
