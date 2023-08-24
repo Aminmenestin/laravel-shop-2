@@ -17,7 +17,6 @@ class ProductImageController extends Controller
 
         $primary_image->move(public_path(env('PRODUCT_IMAGES_UPLOAD_PATH')) ,  $fileNameImagePrimary);
 
-
         if($images != null){
 
             $allImages = [];
@@ -26,10 +25,10 @@ class ProductImageController extends Controller
                 array_push($allImages , generateFileName($image));
             }
 
-            return [ 'primary_image' => generateFileName($primary_image ) , 'images'=> $allImages];
+            return [ 'primary_image' => $fileNameImagePrimary , 'images'=> $allImages];
         }
 
-        return [ 'primary_image' => generateFileName($primary_image ) , 'images'=> null];
+        return [ 'primary_image' => $fileNameImagePrimary , 'images'=> null];
     }
 
 

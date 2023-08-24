@@ -528,7 +528,7 @@
             <div class="arrivals-wrap scroll-zoom">
                 <div class="ht-products product-slider-active owl-carousel">
 
-                    @foreach ($products->random(10) as $product)
+                    @foreach ($products->random(1) as $product)
                         <!--Product Start-->
                         <div class="ht-product ht-product-action-on-hover ht-product-category-right-bottom mb-30">
                             <div class="ht-product-inner">
@@ -613,7 +613,7 @@
     <div class="banner-area pb-120">
         <div class="container">
             <div class="row">
-                @foreach ($sliders->where('banner_position', 3)->random(2) as $slider)
+                {{-- @foreach ($sliders->where('banner_position', 3)->random(2) as $slider)
                     <div class="col-lg-6 col-md-6 text-right">
                         <div class="single-banner mb-30 scroll-zoom">
                             <a href="{{ $slider->button_link }}"><img
@@ -626,7 +626,7 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @endforeach --}}
             </div>
         </div>
     </div>

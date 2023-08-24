@@ -11,18 +11,15 @@ class ProductVariationController extends Controller
 {
     public function store($variations, $attribute_variation, $product)
     {
-
-        // dd($variations);
-
-        $counter = $variations['value'];
+        $counter = $variations['name'];
 
         for ($i = 0; $i < count($counter); $i++) {
 
             ProductVariation::create([
                 'attribute_id' => $attribute_variation->id,
                 'product_id' => $product->id,
+                'value' => $variations['name'][$i],
                 'price' => $variations['price'][$i],
-                'value' => $variations['value'][$i],
                 'quantity' => $variations['quantity'][$i],
                 'sku' => $variations['sku'][$i],
             ]);

@@ -123,7 +123,6 @@
                 type: "GET",
                 url: `/admin-panel/category-attributes/${$(this).val()}`,
                 success: function(response) {
-                    console.log(response.variation)
 
                     $('#attributesContainer').fadeOut();
                     $('#attributes').empty();
@@ -147,14 +146,14 @@
                             class: 'form-control',
                             id: attribute.name,
                             name: `attribute_ids[${attribute.id}]`,
-                            // required: 'required',
+                            required: 'required',
                         }));
 
                         $('#attributes').append(attributeFormGroup);
-                        $('#variationName').text(response.variation.name);
                         $('#variationid').val(response.variation.id);
 
                     });
+                    $('#variationName').text(response.variation.name);
                 }
             });
         })

@@ -59,13 +59,14 @@ class ProductController extends Controller
             "category_id" => 'required',
             "attribute_ids" => 'required',
             "attribute_ids.*" => 'required',
-            'variation_values' => 'required',
-            'variation_values.*.*' => 'required',
-            'variation_values.price.*' => 'integer',
-            'variation_values.quantity.*' => 'integer',
+            'variation_value' => 'required',
+            'variation_value.*.*' => 'required',
+            'variation_value.price.*' => 'integer',
+            'variation_value.quantity.*' => 'integer',
             "delivery_amount" => 'required | integer',
             "delivery_amount_per_product" => 'nullable | integer',
         ]);
+
 
         try {
             DB::beginTransaction();
@@ -74,6 +75,7 @@ class ProductController extends Controller
             $productImageController =  new ProductImageController;
 
             $fileNameImages =  $productImageController->upload($request->primary_image, $request->images);
+
 
 
             $product = Product::create([
@@ -108,8 +110,7 @@ class ProductController extends Controller
 
 
             $ProductVariationController = new ProductVariationController;
-            $ProductVariationController->store($request->variation_values, $category->attributes()->wherePivot('is_variation', 1)->first(), $product);
-
+            $ProductVariationController->store($request->variation_value, $category->attributes()->wherePivot('is_variation', 1)->first(), $product);
 
             $product->tags()->attach($request->tag_ids);
 

@@ -5,7 +5,7 @@
 @endsection
 
 @section('script')
-    <script>
+    <script type="module">
         // Show File Name
         $('#primary_image').change(function() {
             //get the file name
