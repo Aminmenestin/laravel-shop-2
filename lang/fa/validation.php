@@ -192,7 +192,7 @@ return [
         'tag_ids'     => "تگ",
         'primary_image'     => "تصویر اصلی",
         'category_id'     => "دسته بندی",
-        'variation_values'     => "قیمت و موجودی متغییر",
+        'variation_value'     => "قیمت و موجودی متغییر",
         'delivery_amount'     => "هزینه ارسال",
     ],
 ];

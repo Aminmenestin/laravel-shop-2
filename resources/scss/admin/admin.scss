@@ -6,9 +6,12 @@
 @import "variables.scss";
 
 // Import Bootstrap
-@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "bootstrap/scss/bootstrap.scss";
 
-@import '../../vendor/bootstrap-select-1.13.14/sass/bootstrap-select.scss';
+@import 'bootstrap-select/sass/bootstrap-select.scss';
+
+
+@import 'md.bootstrappersiandatetimepicker/dist/mds.bs.datetimepicker.style.css';
 
 // Import Custom SB Admin 2 Mixins and Components
 @import "mixins.scss";

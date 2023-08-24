@@ -34,6 +34,10 @@ class Product extends Model
             ->saveSlugsTo('slug');
     }
 
+    public function IsSale(){
+         return $this->variations->first()->sale_price != null ? true : false ;
+    }
+
 
     public function tags(){
         return $this->belongsToMany(Tag::class , 'product_tag');

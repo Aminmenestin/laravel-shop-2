@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 
 class ProductImageController extends Controller
 {
+
     public function upload($primary_image , $images){
 
         $fileNameImagePrimary = generateFileName($primary_image->getClientOriginalName());

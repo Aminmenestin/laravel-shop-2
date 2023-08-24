@@ -15,12 +15,14 @@
 
     <!-- Custom styles for this template-->
 
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     @vite(['resources/scss/admin/admin.scss'])
 
 </head>
 
 <body id="page-top">
-    
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -52,14 +54,19 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <script src="{{asset('js/jquery.min.js')}}"></script>
-    <script src="{{asset('js/jquery.czMore-latest.js')}}"></script>
-    <script src="{{asset('js/sweetalert2.all.min.js')}}"></script>
+
 
     @include('admin.commons.logout-modal')
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
     @vite(['resources/js/admin/app.js'])
+
+    <script type="module" src="{{asset('admin/js/jquery.czMore-latest.js')}}"></script>
+    <script type="module" src="{{asset('admin/js/sb-admin-2.js')}}"></script>
+    <script type="module" src="{{asset('admin/js/chart-area-demo.js')}}"></script>
+    <script type="module" src="{{asset('admin/js/chart-pie-demo.js')}}"></script>
+    <script src="{{asset('js/sweetalert2.all.min.js')}}"></script>
 
     @yield('script')
 

@@ -46,7 +46,9 @@ Route::prefix('/admin-panel')->name('admin.')->group(function(){
 
 
     Route::resource('/products', ProductController::class );
-    Route::get('/products/image/{product}/category_edit', [ProductController::class , 'category_edit'] )->name('products.category.edit');
+    Route::get('/products/{product}/category_edit', [ProductController::class , 'category_edit'] )->name('products.category.edit');
+
+    Route::put('/products/{product}/category_update', [ProductController::class , 'category_update'] )->name('products.category.update');
 
 
 

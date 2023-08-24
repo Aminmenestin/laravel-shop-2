@@ -25,16 +25,23 @@ class ProductAttributeController extends Controller
 
         foreach($attribute_values as $key => $value){
 
-            $attribute= ProductAttribute::find($key);
-
+            $attribute= ProductAttribute::findOrfail($key);
             $attribute->update([
-                'value' => $value
+                'value' => $value[0]
             ]);
 
         }
+    }
 
-
-        // ProductAttribute::
-
+    public function change($attributes, $product)
+    {
+        ProductAttribute::where('product_id' , $product->id)->delete();
+        foreach ($attributes as $key => $value) {
+            ProductAttribute::create([
+                'product_id' => $product->id,
+                'attribute_id' => $key,
+                'value' => $value,
+            ]);
+        }
     }
 }

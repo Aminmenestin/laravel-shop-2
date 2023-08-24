@@ -62,7 +62,7 @@
                             class: 'form-control',
                             id: attribute.name,
                             name: `attribute_ids[${attribute.id}]`,
-                            required: 'required',
+                            // required: 'required',
                         }));
 
                         $('#attributes').append(attributeFormGroup);
@@ -123,6 +123,7 @@
                 type: "GET",
                 url: `/admin-panel/category-attributes/${$(this).val()}`,
                 success: function(response) {
+                    console.log(response.variation)
 
                     $('#attributesContainer').fadeOut();
                     $('#attributes').empty();
@@ -146,11 +147,12 @@
                             class: 'form-control',
                             id: attribute.name,
                             name: `attribute_ids[${attribute.id}]`,
-                            required: 'required',
+                            // required: 'required',
                         }));
 
                         $('#attributes').append(attributeFormGroup);
                         $('#variationName').text(response.variation.name);
+                        $('#variationid').val(response.variation.id);
 
                     });
                 }
@@ -175,17 +177,18 @@
 
             @include('admin.commons.error')
 
-            <form action="{{ route('admin.products.store') }}">
+            <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="name">نام</label>
                         <input class="form-control" id="name" name="name" type="text" value="{{ old('name') }}"
-                            required>
+                            >
                     </div>
 
                     <div class="form-group col-md-3">
                         <label for="brand_id">برند</label>
-                        <select id="brandSelect" name="brand_id" class="form-control" data-live-search="true" required>
+                        <select id="brandSelect" name="brand_id" class="form-control" data-live-search="true" >
                             @foreach ($brands as $brand)
                                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                             @endforeach
@@ -204,7 +207,7 @@
                     <div class="form-group col-md-3">
                         <label for="tag_ids">تگ</label>
                         <select id="tagSelect" name="tag_ids" class="form-control" multiple data-live-search="true"
-                            required>
+                            >
                             @foreach ($tags as $tag)
                                 <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                             @endforeach
@@ -213,7 +216,7 @@
 
                     <div class="form-group col-md-12">
                         <label for="description">توضیحات</label>
-                        <textarea class="form-control" id="description" name="description" required>{{ old('description') }}</textarea>
+                        <textarea class="form-control" id="description" name="description" >{{ old('description') }}</textarea>
                     </div>
 
                     {{-- Product Image Section --}}
@@ -226,7 +229,7 @@
                         <label for="primary_image"> انتخاب تصویر اصلی </label>
                         <div class="custom-file">
                             <input type="file" name="primary_image" class="custom-file-input" id="primary_image"
-                                required>
+                                >
                             <label class="custom-file-label" for="primary_image"> انتخاب فایل </label>
                         </div>
                     </div>
@@ -250,7 +253,7 @@
                             <div class="form-group col-md-3">
                                 <label for="category_id">دسته بندی</label>
                                 <select id="categorySelect" name="category_id" class="form-control" data-live-search="true"
-                                    required>
+                                    >
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }} -
                                             {{ $category->parent->name }}</option>
@@ -266,6 +269,7 @@
                             <hr>
                             <p>افزودن قیمت و موجودی برای متغیر <span class="font-weight-bold" id="variationName"></span> :
                             </p>
+                            <input type="hidden" id="variationid" name="variationid">
                         </div>
 
                         <div id="czContainer">
@@ -274,19 +278,19 @@
                                     <div class="row">
                                         <div class="form-group col-md-3">
                                             <label>نام</label>
-                                            <input class="form-control" name="variation_value" type="text" required>
+                                            <input class="form-control" name="variation_value[name][]" type="text" >
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>قیمت</label>
-                                            <input class="form-control" name="variation_price" type="text" required>
+                                            <input class="form-control" name="variation_value[price][]" type="text" >
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>تعداد</label>
-                                            <input class="form-control" name="variation_quantity" type="text" required>
+                                            <input class="form-control" name="variation_value[quantity][]" type="text" >
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>شناسه انبار</label>
-                                            <input class="form-control" name="variation_sku" type="text" required>
+                                            <input class="form-control" name="variation_value[sku][]" type="text" >
                                         </div>
                                     </div>
                                 </div>
@@ -304,13 +308,13 @@
                     <div class="form-group col-md-3">
                         <label for="delivery_amount">هزینه ارسال</label>
                         <input class="form-control" id="delivery_amount" name="delivery_amount" type="text"
-                            value="{{ old('delivery_amount') }}" required>
+                            value="{{ old('delivery_amount') }}" >
                     </div>
 
                     <div class="form-group col-md-3">
                         <label for="delivery_amount_per_product">هزینه ارسال به ازای محصول اضافی</label>
                         <input class="form-control" id="delivery_amount_per_product" name="delivery_amount_per_product"
-                            type="text" value="{{ old('delivery_amount_per_product') }}" required>
+                            type="text" value="{{ old('delivery_amount_per_product') }}" >
                     </div>
 
                 </div>

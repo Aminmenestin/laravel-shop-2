@@ -17,4 +17,5 @@ class ProductAttribute extends Model
         return $this->belongsTo(Attribute::class);
     }
 
+
 }
