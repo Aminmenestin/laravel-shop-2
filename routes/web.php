@@ -3,16 +3,17 @@
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Home\ShopController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Home\PayTestController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AttributeController;
-use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Home\HomeController as HomeHomeController;
-use App\Http\Controllers\Home\PayTestController;
-use App\Http\Controllers\Home\ShopController;
+use App\Http\Controllers\Home\CategoryController as HomeCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,4 +77,5 @@ Route::prefix('/')->name('home.')->group(function(){
 
     Route::get('/{category:slug}' , [ShopController::class , 'index'])->name('shop');
 
+    Route::get('/categories/{category:slug}' , [HomeCategoryController::class , 'show'])->name('categories.show');
 });

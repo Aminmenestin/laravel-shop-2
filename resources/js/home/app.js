@@ -1,4 +1,5 @@
-import '../../../node_modules/popper.js/dist/popper.min.js';
-import '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'popper.js/dist/popper';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../../js/home/js/ajax-mail.js';
 import '../../js/home/js/main.js';
+import '../../vendor/rating-star-icons/dist/rating.js'

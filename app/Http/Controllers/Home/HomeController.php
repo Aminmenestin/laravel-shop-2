@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Home;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use App\Models\Banner;
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -17,6 +18,10 @@ class HomeController extends Controller
         $sliders = Banner::where('is_active' , 1)->orderBy('priority')->get();
 
         $products = Product::where('is_active' , 1)->inRandomOrder()->get();
+
+        // $product = Product::find(17);
+
+        // dd($product->priceCheck);
 
         return view('home.index' , compact('parent_categories' , 'sliders' , 'products'));
     }

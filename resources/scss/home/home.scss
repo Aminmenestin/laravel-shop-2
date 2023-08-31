@@ -33,13 +33,15 @@
     23. My account style
 
 -----------------------------------------------------------------------------------*/
+@import '../../vendor/FontAwesome.Pro.6.4.2/css/all.css';
 
-
-@import '../../../node_modules//bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
 @import './assets/css/icons.min.css';
 
 @import './assets/css/plugins.css';
+
+@import '../../vendor/SVG-Based-Star-Rating-Plugin-For-jQuery-star-rating-svg-js/src/css/star-rating-svg.css';
 
 
 @import "variabls";
@@ -81,6 +83,9 @@ body {
   background: #7a7a7a;
   height: 35px;
 }
+.not-in-stock p{
+    color: #fff;
+}
 
 .input-error-validation {
   text-align: right;
@@ -90,4 +95,18 @@ body {
 
 .selected_category{
     color: #ff3535;
+}
+
+
+.cart-plus-minus .qtybutton {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.cart-plus-minus .qtybutton {
+    outline: none !important;
 }

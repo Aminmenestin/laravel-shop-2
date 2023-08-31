@@ -21,7 +21,7 @@
                                 <li><a href="contact-us.html"> تماس با ما </a></li>
 
                                 <li class="angle-shape">
-                                    <a href="shop.html"> فروشگاه </a>
+                                    <a href="#"> فروشگاه </a>
 
                                     <ul class="mega-menu">
 
@@ -31,11 +31,11 @@
 
                                         @foreach ($parent_categories as $category)
                                             <li>
-                                                <a class="menu-title" href="{{route('home.shop' , ['category' => $category->slug])}}">{{ $category->name }}</a>
+                                                <a class="menu-title" href="#">{{ $category->name }}</a>
                                                 <ul>
                                                     @foreach ($category->children as $child)
                                                         <li>
-                                                            <a href="{{route('home.shop' , ['category' => $child->slug])}}">
+                                                            <a href="{{route('home.categories.show' , ['category' => $child->slug])}}">
                                                                 {{ $child->name }}
                                                             </a>
                                                         </li>

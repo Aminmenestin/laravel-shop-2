@@ -25,6 +25,8 @@
 
    @yield('content')
 
+   @include('home.commons.modal')
+
    @include('home.commons.footer')
 
 
@@ -35,12 +37,14 @@
 
     <script src="{{asset('home/js/vendor/jquery-1.12.4.min.js')}}"></script>
     <script src="{{asset('home/js/plugins.js')}}"></script>
-
     @vite(['resources/js/home/app.js'])
+
+
 
     @yield('script')
 
     @stack('customjs')
+
 </body>
 
 </html>

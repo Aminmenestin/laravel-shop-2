@@ -43,7 +43,7 @@ class Category extends Model
     }
 
     public function products(){
-        return $this->hasMany(Product::class)->where('is_active' , 1)->where('status' , 1);
+        return $this->hasMany(Product::class)->where('is_active' , 1)->orderBy('status' , 'desc');
     }
 
     public function Randproducts(){
