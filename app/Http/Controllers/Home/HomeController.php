@@ -8,11 +8,20 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ProductVariation;
 
 class HomeController extends Controller
 {
     public function index()
     {
+
+        // $t = ProductVariation::find(2);
+
+        // dd($t->percentCounter);
+
+        // foreach(\Cart::getContent() as $item){
+        //     dd($item->attributes);
+        // }
 
         // session()->flush();
 

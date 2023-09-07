@@ -66,12 +66,11 @@
                             <button class="icon-cart-active">
                                 <span class="icon-cart">
                                     <i class="sli sli-bag"></i>
-                                    <span class="count-style">02</span>
+                                    <span class="count-style">{{count(\Cart::getContent())}}</span>
                                 </span>
 
-
                                 <span class="cart-price">
-                                    500,000
+                                    {{number_format(\Cart::getTotal())}}
                                 </span>
                                 <span>تومان</span>
                             </button>
@@ -81,33 +80,26 @@
                                     <h4>سبد خرید</h4>
                                 </div>
                                 <ul>
+                                    @foreach (\Cart::getContent() as $item)
                                     <li class="single-shopping-cart">
                                         <div class="shopping-cart-title">
-                                            <h4><a href="#"> لورم ایپسوم </a></h4>
-                                            <span>1 x 90.00</span>
+                                            <h4><a href="{{route('home.product.details' , $item->associatedModel->slug)}}">{{$item->name}}</a></h4>
+                                            <span>{{$item->quantity}} x {{number_format($item->price)}}</span>
+                                            <div dir="rtl">{{App\Models\Attribute::find($item->attributes->attribute_id)->name}} : {{$item->attributes->value}}</div>
+                                            @if ($item->attributes->is_sale)
+                                            @endif
+                                            <div dir="rtl" style="color:#ff3535;">20% تخفیف  {{$item->attributes->percent_Counter}}</div>
                                         </div>
 
                                         <div class="shopping-cart-img">
-                                            <a href="#"><img alt=""
-                                                    src="{{ asset('home/img/cart/cart-1.svg') }}" /></a>
+                                            <a href="{{route('home.product.details' , $item->associatedModel->slug)}}"><img alt=""
+                                                    src="{{ env('PRODUCT_IMAGES_UPLOAD_PATH').$item->associatedModel->primary_image }}" /></a>
                                             <div class="item-close">
                                                 <a href="#"><i class="sli sli-close"></i></a>
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="single-shopping-cart">
-                                        <div class="shopping-cart-title">
-                                            <h4><a href="#"> لورم ایپسوم </a></h4>
-                                            <span>1 x 9,000</span>
-                                        </div>
-                                        <div class="shopping-cart-img">
-                                            <a href="#"><img alt=""
-                                                    src="{{ asset('home/img/cart/cart-2.svg') }}" /></a>
-                                            <div class="item-close">
-                                                <a href="#"><i class="sli sli-close"></i></a>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    @endforeach
                                 </ul>
                                 <div class="shopping-cart-bottom">
                                     <div class="shopping-cart-total d-flex justify-content-between align-items-center"
@@ -116,7 +108,7 @@
                                             جمع کل :
                                         </h4>
                                         <span class="shop-total">
-                                            25,000 تومان
+                                            {{number_format(\Cart::getTotal())}} تومان
                                         </span>
                                     </div>
                                     <div class="shopping-cart-btn btn-hover text-center">
