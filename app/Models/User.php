@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'otp',
+        'login_token',
+        'cell_phone',
+        'token_expire'
     ];
 
     /**
@@ -42,4 +46,5 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
 }

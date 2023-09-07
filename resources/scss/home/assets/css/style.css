@@ -3407,7 +3407,7 @@ textarea:focus {
   .ht-products .ht-product.ht-product-category-right-bottom .ht-product-inner .ht-product-content .ht-product-content-inner .ht-product-categories {
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: 6px;
     margin: 0; }
   .ht-products .ht-product.ht-product-ratting-top-right .ht-product-inner .ht-product-content .ht-product-content-inner .ht-product-price {
     margin: 0; }

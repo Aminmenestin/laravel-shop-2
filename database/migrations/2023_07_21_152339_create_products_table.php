@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('primary_image');
             $table->string('description');
 
-            $table->integer('status')->default(1);
+            $table->integer('status')->default(0);
             $table->boolean('is_active');
 
             $table->integer('delivery_amount');

@@ -13,8 +13,6 @@ class CategoryController extends Controller
 
         $products = $category->products()->where('is_active' , 1)->filter()->search()->paginate(10);
 
-        // dd($products);
-
         $attributes = $category->attributes()->where('is_filter' , 1)->where('is_variation' , 0)->with('attribiuteValue')->get();
 
         $variation = $category->attributes()->where('is_filter' , 1)->where('is_variation' , 1)->with('variationValue')->first();

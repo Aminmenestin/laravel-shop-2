@@ -1,4 +1,4 @@
-@extends('admin.layouts.admin')
+@extends('admin.layouts.master')
 
 @section('title')
     show products
@@ -56,7 +56,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label>هزینه ارسال</label>
-                    <input class="form-control" type="text" value="$product->delivery_amount" disabled>
+                    <input class="form-control" type="text" value="{{$product->delivery_amount}}" disabled>
                 </div>
                 <div class="form-group col-md-3">
                     <label>هزینه ارسال به ازای محصول اضافی</label>
@@ -68,14 +68,14 @@
                     <hr>
                     <p>ویژگی ها : </p>
                 </div>
-                @foreach ($productAttributes as $productAttribute)
+                @foreach ($product->attributes as $productAttribute)
                     <div class="form-group col-md-3">
                         <label>{{ $productAttribute->attribute->name }}</label>
                         <input class="form-control" type="text" value="{{ $productAttribute->value }}" disabled>
                     </div>
                 @endforeach
 
-                @foreach ($productVariations as $variation)
+                @foreach ($product->variations as $variation)
                     <div class="col-md-12">
                         <hr>
                         <div class="d-flex">
@@ -156,7 +156,7 @@
                     <hr>
                 </div>
 
-                @foreach ($images as $image)
+                @foreach ($product->images as $image)
                 <div class="col-md-3">
                     <div class="card">
                         <img class="card-img-top"

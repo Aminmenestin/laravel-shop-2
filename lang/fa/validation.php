@@ -194,5 +194,11 @@ return [
         'category_id'     => "دسته بندی",
         'variation_value'     => "قیمت و موجودی متغییر",
         'delivery_amount'     => "هزینه ارسال",
+        'cell_phone'     => "شماره تلفن همراه",
+        'otp'     => "رمز یک بار مصرف",
+        'comment'     => "دیدگاه",
+        'rate'     => "امتیاز",
+        'firstName'     => "نام",
+        'lastName'     => "نام خانوادگی",
     ],
 ];

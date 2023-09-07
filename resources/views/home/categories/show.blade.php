@@ -35,9 +35,19 @@
         })
 
 
+        $('#searchInput').keypress(function(e) {
+            var key = e.which;
+            if (key == 13)
+            {
+                filter();
+            }
+        });
+
 
 
         function filter() {
+
+            console.log('ok');
 
             let attributes = @json($attributes);
 
@@ -115,15 +125,14 @@
 
         }
 
-        $('#pagination li a').map(function(){
-            
-          let decodeUrl = decodeURIComponent($(this).attr('href'));
+        $('#pagination li a').map(function() {
 
-            if($(this).attr('href') != undefined){
-                $(this).attr('href' , decodeUrl )
+            let decodeUrl = decodeURIComponent($(this).attr('href'));
+
+            if ($(this).attr('href') != undefined) {
+                $(this).attr('href', decodeUrl)
             }
         })
-
     </script>
 @endpush()
 
@@ -187,13 +196,13 @@
                                 <h4 class="pro-sidebar-title">{{ $attribute->name }}</h4>
                                 <div class="sidebar-widget-list mt-20">
                                     <ul>
-                                        {{-- {{dd(request()->has('attribute.'.$attribute->id))}} --}}
                                         @foreach ($attribute->attribiuteValue as $attributeValue)
                                             <li>
                                                 <div class="sidebar-widget-list-left">
-                                                    <input class="attribute-{{ $attribute->id }}" type="checkbox"
-                                                        value="{{ $attributeValue->value }}"
-                                                        {{ request()->has('attribute.' . $attribute->id) && in_array($attributeValue->value, explode('-', request()->attribute[$attribute->id])) ? 'checked' : '' }}>
+                                                    <input
+                                                        {{ request()->has('attribute.' . $attribute->id) && in_array($attributeValue->value, explode('-', request()->attribute[$attribute->id])) ? 'checked' : '' }}
+                                                        class="attribute-{{ $attribute->id }}" type="checkbox"
+                                                        value="{{ $attributeValue->value }}">
                                                     <a href="#">{{ $attributeValue->value }}</a>
                                                     <span class="checkmark"></span>
                                                 </div>
@@ -212,7 +221,7 @@
                                         <li>
                                             <div class="sidebar-widget-list-left">
                                                 <input class="variation" type="checkbox"
-                                                    {{ request()->has('variation') && in_array($variatioValue->value, explode('-', request('variation'))) ? 'checked' : '' }}
+                                                    {{ request()->has('variation') && in_array($variatioValue->value, explode('-', request()->variation)) ? 'checked' : '' }}
                                                     value="{{ $variatioValue->value }}"> <a
                                                     href="#">{{ $variatioValue->value }}</a>
                                                 <span class="checkmark"></span>
@@ -262,17 +271,23 @@
                         <div class="tab-content jump">
 
                             <div class="row ht-products" style="direction: rtl;">
-                                @foreach ($products as $product)
-                                    <div class="col-xl-4 col-md-6 col-lg-6 col-sm-6">
-                                        @include('home.commons.product')
-                                    </div>
-                                @endforeach
+                                @if ($products->first() == null)
+                                    <h4 class="alert alert-danger w-100 text-center">
+                                        محصولی با این مشخصات پیدا نشد !!
+                                    </h4>
+                                @else
+                                    @foreach ($products as $product)
+                                        <div class="col-xl-4 col-md-6 col-lg-6 col-sm-6">
+                                            @include('home.commons.product')
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
 
                         </div>
 
                         <div id="pagination" class="pro-pagination-style text-center mt-30">
-                           {{$products->withQueryString()->links('home.commons.pagination')}}
+                            {{ $products->withQueryString()->links('home.commons.pagination') }}
                         </div>
 
                     </div>
@@ -290,5 +305,7 @@
         <input type="hidden" name="sortBy" id="form-sort">
         <input type="hidden" name="search" id="form-search">
     </form>
+
+    @include('home.commons.modal')
 
 @endsection

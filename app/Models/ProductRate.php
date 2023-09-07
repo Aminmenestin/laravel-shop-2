@@ -9,4 +9,5 @@ class ProductRate extends Model
 {
     use HasFactory;
     protected $table = 'product_rate';
+    protected $guarded = [];
 }

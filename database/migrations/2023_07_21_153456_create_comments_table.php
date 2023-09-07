@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
 
-            $table->integer('approved');
+            $table->integer('approved')->default(0);
 
-            $table->string('text');
+            $table->text('text');
 
             $table->timestamps();
         });

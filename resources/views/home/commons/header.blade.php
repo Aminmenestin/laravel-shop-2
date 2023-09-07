@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-xl-2 col-lg-2">
                     <div class="logo pt-40">
-                        <a href="{{route('home.index')}}">
+                        <a href="{{ route('home.index') }}">
                             <h3 class="font-weight-bold">Shop.ir</h3>
                         </a>
                     </div>
@@ -26,7 +26,9 @@
                                     <ul class="mega-menu">
 
                                         @php
-                                            $parent_categories = APP\Models\Category::where('parent_id' , 0)->where('is_active' , 1)->get();
+                                            $parent_categories = App\Models\Category::where('parent_id', 0)
+                                                ->where('is_active', 1)
+                                                ->get();
                                         @endphp
 
                                         @foreach ($parent_categories as $category)
@@ -35,7 +37,8 @@
                                                 <ul>
                                                     @foreach ($category->children as $child)
                                                         <li>
-                                                            <a href="{{route('home.categories.show' , ['category' => $child->slug])}}">
+                                                            <a
+                                                                href="{{ route('home.categories.show', ['category' => $child->slug]) }}">
                                                                 {{ $child->name }}
                                                             </a>
                                                         </li>
@@ -47,7 +50,7 @@
                                 </li>
 
                                 <li class="angle-shape">
-                                    <a href="{{route('home.index')}}"> صفحه اصلی </a>
+                                    <a href="{{ route('home.index') }}"> صفحه اصلی </a>
                                 </li>
                             </ul>
                         </nav>
@@ -134,14 +137,21 @@
                             </button>
                             <div class="setting-content">
                                 <ul class="text-right">
-                                    <li><a href="login.html">ورود</a></li>
-                                    <li>
-                                        <a href="register.html">ایجاد حساب</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{route('admin.dashboard')}}" target="_blank">صفحه ادمین</a>
-                                    </li>
-                                    <li><a href="my-account.html">پروفایل</a></li>
+                                    @guest
+                                        <li><a href="{{ route('home.login') }}">ورود</a></li>
+                                    @endguest
+                                    @auth
+                                        <li>
+                                            <a href="{{ route('admin.dashboard') }}" target="_blank">صفحه ادمین</a>
+                                        </li>
+                                    @endauth
+                                    @auth
+                                        <li><a href="{{ route('home.profile.index') }}">پروفایل</a></li>
+                                    @endauth
+                                    <li><a href="{{route('home.compare.index')}}">مقایسه</a></li>
+                                    @auth
+                                        <li><a href="{{ route('home.logout') }}">خروج</a></li>
+                                    @endauth
                                 </ul>
                             </div>
                         </div>

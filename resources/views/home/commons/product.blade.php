@@ -2,7 +2,7 @@
  <div class="ht-product ht-product-action-on-hover ht-product-category-right-bottom mb-30">
      <div class="ht-product-inner">
          <div class="ht-product-image-wrap">
-             <a href="product-details.html" class="ht-product-image">
+             <a href="{{route('home.product.details' , $product->slug )}}" class="ht-product-image">
                  <img style="width: 254px; height: 254px; object-fit: cover"
                      src="{{ env('PRODUCT_IMAGES_UPLOAD_PATH') . $product->primary_image }}"
                      alt="Universal Product Style" />
@@ -20,7 +20,7 @@
                                  علاقه مندی ها </span></a>
                      </li>
                      <li>
-                         <a href="#"><i class="sli sli-refresh"></i><span class="ht-product-action-tooltip">
+                         <a href="{{route('home.compare.add' , $product->id)}}"><i class="sli sli-refresh"></i><span class="ht-product-action-tooltip">
                                  مقایسه
                              </span></a>
                      </li>
@@ -30,10 +30,10 @@
          <div class="ht-product-content">
              <div class="ht-product-content-inner">
                  <div class="ht-product-categories">
-                     <a href="#">{{ $product->category->parent->name }}</a>
+                     <a href="{{route('home.categories.show' , $product->category->slug  )}}">{{ $product->category->name }} - {{ $product->category->parent->name }} </a>
                  </div>
                  <h4 class="ht-product-title text-right">
-                     <a href="product-details.html">{{ $product->name }}</a>
+                     <a href="{{route('home.product.details' , $product->slug )}}">{{ $product->name }}</a>
                  </h4>
                  <div class="ht-product-price">
 

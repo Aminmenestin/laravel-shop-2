@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\ProductVariation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -24,6 +25,18 @@ class ProductVariationController extends Controller
                 'sku' => $variations['sku'][$i],
             ]);
         };
+
+        if($product->quantityCheck == null){
+            $product->update([
+                'status' => 0,
+            ]);
+        }
+        else{
+            $product->update([
+                'status' => 1,
+            ]);
+        }
+
     }
 
 
@@ -43,6 +56,19 @@ class ProductVariationController extends Controller
                 'is_sale' => $value['sale_price'] != null  && $variation['date_on_sale_from'] != null && $variation['date_on_sale_to'] !=null ?  1 : 0,
             ]);
         }
+
+            $product =Product::find($variation->product_id) ;
+            if($product->quantityCheck == null){
+                $product->update([
+                    'status' => 0,
+                ]);
+            }
+            else{
+                $product->update([
+                    'status' => 1,
+                ]);
+            }
+
     }
 
     public function change($variation_values, $attributeId, $product)
@@ -61,5 +87,17 @@ class ProductVariationController extends Controller
                 'sku' => $variation_values['sku'][$i],
             ]);
         }
+
+        if($product->quantityCheck == null){
+            $product->update([
+                'status' => 0,
+            ]);
+        }
+        else{
+            $product->update([
+                'status' => 1,
+            ]);
+        }
+
     }
 }

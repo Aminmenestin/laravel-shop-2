@@ -4,19 +4,19 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Brand;
+use App\Models\Comment;
 use App\Models\Category;
 use App\Models\ProductRate;
 use App\Models\ProductImages;
-use Spatie\Sluggable\HasSlug;
 use App\Models\ProductAttribute;
-use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    use HasFactory, HasSlug;
+    use HasFactory , Sluggable;
 
 
     protected $table = 'products';
@@ -89,12 +89,13 @@ class Product extends Model
         return $query;
     }
 
-    public function scopeSearch($query){
+    public function scopeSearch($query)
+    {
 
         $keyWord = request()->search;
 
-        if(request()->has('search') && trim($keyWord) != ''){
-            $query->where('name', 'LIKE' , '%' . trim($keyWord) . '%');
+        if (request()->has('search') && trim($keyWord) != '') {
+            $query->where('name', 'LIKE', '%' . trim($keyWord) . '%');
         }
 
         return $query;
@@ -121,13 +122,14 @@ class Product extends Model
         );
     }
 
-    public function getSlugOptions(): SlugOptions
+    public function sluggable(): array
     {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug');
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
     }
-
 
     public function tags()
     {
@@ -164,5 +166,10 @@ class Product extends Model
     public function rates()
     {
         return $this->hasMany(ProductRate::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->where('approved' , 1);
     }
 }

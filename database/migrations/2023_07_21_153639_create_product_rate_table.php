@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('comment_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
 
             $table->integer('rate');
 

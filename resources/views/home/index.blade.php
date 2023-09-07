@@ -122,7 +122,8 @@
 
                 @foreach ($parent_categories as $key => $category)
                     <a id="product-category-{{ $category->id }}" class="{{ $key == 0 ? 'active' : '' }}"
-                        onclick="activeClass({{ $category->id }});" href="#category-id-{{ $category->id }}" data-toggle="tab">
+                        onclick="activeClass({{ $category->id }});" href="#category-id-{{ $category->id }}"
+                        data-toggle="tab">
                         <h4>{{ $category->name }}</h4>
                     </a>
                 @endforeach
@@ -270,5 +271,6 @@
         </div>
     </div>
 
+    @include('home.commons.modal')
 
 @endsection

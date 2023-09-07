@@ -165,6 +165,20 @@
           </div>
         </div>
       </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsecomments" aria-expanded="true"
+          aria-controls="collapsePages">
+          <i class="fa-solid fa-folder fa-lg"></i>
+          <i class="fa-solid fa-folder-open fa-lg"></i>
+          <span>کامنت ها</span>
+        </a>
+        <div id="collapsecomments" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">کامنت ها</h6>
+            <a class="collapse-item" href="{{route('admin.comments.index')}}"> نمایش  کامنت ها </a>
+          </div>
+        </div>
+      </li>
 
 
     <!-- Divider -->
