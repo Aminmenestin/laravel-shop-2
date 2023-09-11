@@ -109,7 +109,10 @@ Route::prefix('/')->name('home.')->group(function () {
     Route::get('/compare/{product:id}/delete' , [HomeHomeController::class , 'delete'])->name('compare.delete');
 
 
-    Route::post('/card-add' , [CardController::class , 'add'])->name('card.add');
+    Route::get('/cart' , [CardController::class , 'index'])->name('cart.index');
+    Route::post('/cart-add' , [CardController::class , 'add'])->name('cart.add');
+
+    Route::post('/cart-update' , [CardController::class , 'update'])->name('cart.update');
 
 });
 

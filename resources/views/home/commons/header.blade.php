@@ -79,6 +79,13 @@
                                     <a class="cart-close" href="#"><i class="sli sli-close"></i></a>
                                     <h4>سبد خرید</h4>
                                 </div>
+                                @if (\Cart::isEmpty())
+                                <div class="alert alert-danger text-center">
+                                    <span>
+                                        سبد خرید شما خالی است
+                                    </span>
+                                </div>
+                                @else
                                 <ul>
                                     @foreach (\Cart::getContent() as $item)
                                     <li class="single-shopping-cart">
@@ -87,8 +94,8 @@
                                             <span>{{$item->quantity}} x {{number_format($item->price)}}</span>
                                             <div dir="rtl">{{App\Models\Attribute::find($item->attributes->attribute_id)->name}} : {{$item->attributes->value}}</div>
                                             @if ($item->attributes->is_sale)
+                                            <div dir="rtl" style="color:#ff3535;">{{App\Models\ProductVariation::find($item->attributes->id)->percent_sale}}% تخفیف</div>
                                             @endif
-                                            <div dir="rtl" style="color:#ff3535;">20% تخفیف  {{$item->attributes->percent_Counter}}</div>
                                         </div>
 
                                         <div class="shopping-cart-img">
@@ -101,6 +108,7 @@
                                     </li>
                                     @endforeach
                                 </ul>
+                                @endif
                                 <div class="shopping-cart-bottom">
                                     <div class="shopping-cart-total d-flex justify-content-between align-items-center"
                                         style="direction: rtl;">

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->string('sku');
             $table->integer('sale_price')->nullable();
+            $table->boolean('is_sale')->default(0);
             $table->date('date_on_sale_from')->nullable();
             $table->date('date_on_sale_to')->nullable();
             $table->timestamps();

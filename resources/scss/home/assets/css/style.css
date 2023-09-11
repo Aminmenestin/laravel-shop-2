@@ -1449,8 +1449,8 @@ textarea:focus {
             width: 100%; }
           .cart-wrap .shopping-cart-content ul li .shopping-cart-img .item-close {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: -5px;
+            left: -20px;
             opacity: 0;
             visibility: hidden;
             transition: all .3s ease 0s; }

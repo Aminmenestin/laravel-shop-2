@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Home;
+
 use Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -9,7 +10,15 @@ use App\Models\ProductVariation;
 
 class CardController extends Controller
 {
-    public function add(Request $request){
+
+    public function index()
+    {
+        return view('home.cart.index');
+    }
+
+    public function add(Request $request)
+    {
+
 
         $request->validate([
             'variation' => 'required',
@@ -21,17 +30,16 @@ class CardController extends Controller
         $product = Product::findOrfail($request->productId);
         $productVariation = ProductVariation::findOrfail(json_decode($request->variation)->id);
 
-
-        if($request->qtybutton > $productVariation->quantity){
+        if ($request->qtybutton > $productVariation->quantity) {
             alert()->error('تعداد وارد شده محصول نادرست است');
             return redirect()->back();
         }
 
 
-        $rowId = $product->id .'-'. $productVariation->id;
+        $rowId = $product->id . '-' . $productVariation->id;
 
 
-        if(Cart::get($rowId) == null){
+        if (Cart::get($rowId) == null) {
 
             Cart::add(array(
                 'id' => $rowId,
@@ -42,19 +50,44 @@ class CardController extends Controller
                 'associatedModel' => $product
             ));
 
+
+
             alert()->success('محصول به سبد خرید اضافه شد');
             return redirect()->back();
-
-        }
-        else{
-            alert()->error('این محصول در سبد خرید وجود دارد');
+            
+        } else {
+            alert()->warning('این محصول در سبد خرید وجود دارد');
             return redirect()->back();
+        }
+    }
+
+    public function update(Request $request)
+    {
+        $item = Cart::get($request->cartId);
+
+
+        if($request->quantity > $item->attributes->quantity ){
+            return response('no', 402);
+        }else{
+            if ($request->type == 'plus') {
+
+                Cart::update($request->cartId, array(
+                    'quantity' => +1,
+                ));
+
+            } else {
+
+                Cart::update($request->cartId, array(
+                    'quantity' => -1,
+                ));
+            }
+
+
+            return response(\Cart::getContent(), 200);
+
         }
 
 
 
     }
-
-
-
 }

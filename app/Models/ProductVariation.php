@@ -12,17 +12,20 @@ class ProductVariation extends Model
 
     protected $table = 'product_variations';
     protected $guarded = [];
-    protected $appends = ['percent_count'];
 
+    protected $appends = ['percent_sale'];
 
-    // public function percentCounter(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn () => $this->price
-    //     );
-    // }
-
-    public function getPercentCountAttribute(){
-        return $this;
+    public function PercentSale():Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->is_sale ? round((($this->price - $this->sale_price) / $this->price) * 100)  : 'no',
+        );
     }
+    public function ProductQuantity():Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->quantity
+        );
+    }
+
 }

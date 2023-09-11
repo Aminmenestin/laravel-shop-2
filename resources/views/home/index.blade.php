@@ -52,6 +52,7 @@
 
 
 @section('content')
+
     <div class="slider-area section-padding-1">
         <div class="slider-active owl-carousel nav-style-1">
             @foreach ($sliders->where('banner_position', 1) as $slider)

@@ -70,30 +70,33 @@
 @import "checkout";
 
 body {
-  font-family: "Vazir" !important;
+    font-family: "Vazir" !important;
 }
+
 .sli {
-  line-height: unset;
+    line-height: unset;
 }
+
 .not-in-stock {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  align-items: center;
-  background: #7a7a7a;
-  height: 35px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    background: #7a7a7a;
+    height: 35px;
 }
-.not-in-stock p{
+
+.not-in-stock p {
     color: #fff;
 }
 
 .input-error-validation {
-  text-align: right;
-  font-size: 11px;
-  color: red;
+    text-align: right;
+    font-size: 11px;
+    color: red;
 }
 
-.selected_category{
+.selected_category {
     color: #ff3535;
 }
 
@@ -107,23 +110,96 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
+
 .cart-plus-minus .qtybutton {
     outline: none !important;
 }
 
 
 
-.wrapper{
+.wrapper {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-footer{
+footer {
     margin-top: auto;
 }
 
 
-.slick-track{
+.slick-track {
     height: 60px;
+}
+
+
+.cart-wrap .shopping-cart-content ul li .shopping-cart-img .item-close {
+    top: -23px;
+    left: 90px;
+}
+
+
+.cart-wrap .shopping-cart-content ul li .shopping-cart-img img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+}
+
+.cart-wrap .shopping-cart-content ul {
+    overflow-y: unset;
+}
+
+
+.cart-wrap .shopping-cart-content ul li {
+    justify-content: end;
+}
+
+
+span {
+    cursor: pointer;
+}
+
+.number {
+    margin: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.minus,
+.plus {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    padding: 8px 5px 8px 5px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none !important;
+}
+
+.minus{
+    margin-right: 5px;
+}
+.plus{
+    margin-left: 5px;
+}
+
+input {
+    height: 34px;
+    width: 100px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;
+    background: none;
 }

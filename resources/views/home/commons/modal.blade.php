@@ -69,7 +69,7 @@
                                         }
                                     @endphp
 
-                                    <form action="{{route('home.card.add')}}" method="POST">
+                                    <form action="{{route('home.cart.add')}}" method="POST">
                                         @csrf
                                         <div class="pro-details-size-color text-right">
                                             <div class="pro-details-size w-50">
