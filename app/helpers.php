@@ -34,3 +34,41 @@ function convertTime($date)
 
     return implode("-", $gregorianDate) . " " . $shamsiDateSplit[3];
 }
+
+
+function shiping(){
+
+    $shiping = 0;
+    foreach (\Cart::getContent() as $item) {
+        if ($item->associatedModel->delivery_amount_per_product) {
+            $shiping += $item->quantity * $item->associatedModel->delivery_amount_per_product;
+        } else {
+            $shiping += $item->associatedModel->delivery_amount;
+        }
+    }
+
+    return $shiping;
+}
+
+function cardtotalamount(){
+
+    $cardtotalamount = 0;
+    foreach (\Cart::getContent() as $item) {
+        $cardtotalamount += $item->quantity * $item->attributes->price;
+    }
+    return $cardtotalamount;
+}
+
+function totalesaleamount(){
+
+    $totalesaleamount = 0;
+    foreach (\Cart::getContent() as $item) {
+        if($item->attributes->is_sale){
+            $totalesaleamount += $item->quantity * ($item->attributes->price - $item->attributes->sale_price);
+        }
+    }
+
+    return $totalesaleamount;
+}
+
+

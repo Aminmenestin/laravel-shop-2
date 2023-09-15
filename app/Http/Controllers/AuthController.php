@@ -55,7 +55,8 @@ class AuthController extends Controller
 
           $user->notify(new OTPSms($optCode));
 
-            return response(['login_token' => $login_token , 'otp' => $optCode ]);
+            // return response( ['user' => new OTPSms($optCode) ] );
+            // return response(['login_token' => $login_token , 'otp' => $optCode ]);
         } catch (\Exception $ex) {
             return response($ex->getMessage(), 422);
         }

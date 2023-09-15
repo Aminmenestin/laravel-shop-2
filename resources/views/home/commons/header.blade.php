@@ -69,8 +69,8 @@
                                     <span class="count-style">{{count(\Cart::getContent())}}</span>
                                 </span>
 
-                                <span class="cart-price">
-                                    {{number_format(\Cart::getTotal())}}
+                                <span id="headertotalprice" class="cart-price">
+                                    {{number_format(\Cart::getTotal() + shiping())}}
                                 </span>
                                 <span>تومان</span>
                             </button>
@@ -91,7 +91,9 @@
                                     <li class="single-shopping-cart">
                                         <div class="shopping-cart-title">
                                             <h4><a href="{{route('home.product.details' , $item->associatedModel->slug)}}">{{$item->name}}</a></h4>
-                                            <span>{{$item->quantity}} x {{number_format($item->price)}}</span>
+                                            <span id="headerQuantity-{{$item->id}}">
+                                                {{$item->quantity}} x {{number_format($item->price)}}
+                                            </span>
                                             <div dir="rtl">{{App\Models\Attribute::find($item->attributes->attribute_id)->name}} : {{$item->attributes->value}}</div>
                                             @if ($item->attributes->is_sale)
                                             <div dir="rtl" style="color:#ff3535;">{{App\Models\ProductVariation::find($item->attributes->id)->percent_sale}}% تخفیف</div>
@@ -102,7 +104,7 @@
                                             <a href="{{route('home.product.details' , $item->associatedModel->slug)}}"><img alt=""
                                                     src="{{ env('PRODUCT_IMAGES_UPLOAD_PATH').$item->associatedModel->primary_image }}" /></a>
                                             <div class="item-close">
-                                                <a href="#"><i class="sli sli-close"></i></a>
+                                                <a href="{{route('home.cart.delete' , $item->id)}}"><i class="sli sli-close"></i></a>
                                             </div>
                                         </div>
                                     </li>
@@ -115,15 +117,15 @@
                                         <h4>
                                             جمع کل :
                                         </h4>
-                                        <span class="shop-total">
-                                            {{number_format(\Cart::getTotal())}} تومان
+                                        <span id="cardtotalprice" class="shop-total">
+                                            {{number_format(\Cart::getTotal() + shiping())}} تومان
                                         </span>
                                     </div>
                                     <div class="shopping-cart-btn btn-hover text-center">
                                         <a class="default-btn" href="checkout.html">
                                             ثبت سفارش
                                         </a>
-                                        <a class="default-btn" href="cart-page.html">
+                                        <a class="default-btn" href="{{route('home.cart.index')}}">
                                             سبد خرید
                                         </a>
                                     </div>

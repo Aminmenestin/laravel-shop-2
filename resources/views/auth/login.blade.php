@@ -25,7 +25,7 @@
                 },
                 success: function(response) {
 
-
+                    console.log(response)
 
                     Swal.fire({
                         icon: 'success',
@@ -34,6 +34,7 @@
                     })
 
                     $('#loginForm').fadeOut();
+                    $('#error').hide();
                     $('#checkOtpForm').fadeIn();
                     $('#otpcode').html(response.otp);
                     timer();

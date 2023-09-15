@@ -114,11 +114,13 @@ Route::prefix('/')->name('home.')->group(function () {
 
     Route::post('/cart-update' , [CardController::class , 'update'])->name('cart.update');
 
+    Route::get('/cart-delete/{id}' , [CardController::class , 'delete'])->name('cart.delete');
+
 });
 
 
 
 Route::get('/test' , function(){
-    // Cart::clear();
-    dd(\Cart::getContent());
+    Cart::clear();
+    // dd(\Cart::getContent());
 });

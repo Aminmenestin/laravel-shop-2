@@ -13,7 +13,7 @@
 
             if (count >= 1) {
 
-                submit(cartId , quantity , 'minus' );
+                submit(cartId, quantity, 'minus');
             }
 
             count = count < 1 ? 1 : count;
@@ -78,13 +78,43 @@
                     _token: "{{ csrf_token() }}"
                 },
                 success: function(response) {
-                    console.log(response)
+                    let shiping = 0;
+                    let totalamount = 0;
+                    let totalesaleamount = 0;
+                    let carttotal = 0;
+                    $.each(response, function(indexInArray, valueOfElement) {
+
+                        if (valueOfElement.associatedModel.delivery_amount_per_product) {
+                            shiping += valueOfElement.quantity * valueOfElement.associatedModel.delivery_amount_per_product
+                        } else {
+                            shiping += valueOfElement.associatedModel.delivery_amount;
+                        }
+
+                        totalamount += valueOfElement.quantity * valueOfElement.attributes.price;
+
+                        if(valueOfElement.attributes.is_sale){
+                            totalesaleamount += valueOfElement.quantity * (valueOfElement.attributes.price-valueOfElement.attributes.sale_price);
+                        }
+
+                        carttotal += response[indexInArray].quantity * response[indexInArray].price;
+                    });
+
+
+                    $('#shiping').html(toPersianNum(formatNumber(shiping)));
+                    $('#totalamount').html(toPersianNum(formatNumber(totalamount)) + ' تومان');
+                    $('#carttotal').html(toPersianNum(formatNumber(carttotal + shiping)) + ' تومان');
+                    $('#totalesaleamount').html(toPersianNum(formatNumber(totalesaleamount)) + ' تومان');
+                    $(`#headerQuantity-${id}`).html(response[id].quantity + ' x ' + toPersianNum(formatNumber(response[id].price)));
+                    $('#headertotalprice').html(toPersianNum(formatNumber(carttotal + shiping)));
+                    $('#cardtotalprice').html(toPersianNum(formatNumber(carttotal + shiping)));
+
                 },
                 error: function(response) {
                     console.log(response)
                 },
             });
         }
+
     </script>
 @endsection
 
@@ -105,164 +135,173 @@
 
     <div class="cart-main-area pt-95 pb-100 text-right" style="direction: rtl;">
         <div class="container">
-            <h3 class="cart-page-title"> سبد خرید شما </h3>
+            @if (!\Cart::isEmpty())
+                <h3 class="cart-page-title"> سبد خرید شما </h3>
+            @endif
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
 
-                    {{-- <form id="test">
-                        @foreach (\Cart::getContent() as $item)
-                            <input type="text" id="quantity-{{ $item->id }}" name="quantity">
-                            <input type="text" id="input-{{ $item->id }}" name="input2" >
-                            <button data-id="{{ $item->id }}" id="test" class="test">fasdf</button>
-                        @endforeach
-                    </form> --}}
-
-
-                    <div class="table-content table-responsive cart-table-content">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th> تصویر محصول </th>
-                                    <th> نام محصول </th>
-                                    <th> فی </th>
-                                    <th> تعداد </th>
-                                    <th> قیمت </th>
-                                    <th> عملیات </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach (\Cart::getContent() as $item)
-                                    <tr>
-                                        <td class="product-thumbnail">
-                                            <a href="#"><img style="width: 100px; height: 100px; object-fit: cover"
-                                                    src="{{ env('PRODUCT_IMAGES_UPLOAD_PATH') . $item->associatedModel->primary_image }}"
-                                                    alt=""></a>
-                                        </td>
-                                        <td class="product-name">
-                                            <h4><a
-                                                    href="{{ route('home.product.details', $item->associatedModel->slug) }}">{{ $item->name }}</a>
-                                            </h4>
-                                            <div dir="rtl">
-                                                {{ App\Models\Attribute::find($item->attributes->attribute_id)->name }}
-                                                : {{ $item->attributes->value }}</div>
-                                            @if ($item->attributes->is_sale)
-                                                <div dir="rtl" style="color:#ff3535;">
-                                                    {{ App\Models\ProductVariation::find($item->attributes->id)->percent_sale }}%
-                                                    تخفیف</div>
-                                            @endif
-                                        </td>
-                                        <td class="product-price-cart"><span class="amount">
-                                                {{ number_format($item->price) }}
-                                                تومان
-                                            </span></td>
-                                        <td class="product-quantity">
-                                            <div class="number">
-                                                <span class="plus" data-price="{{ $item->price }}"
-                                                    data-id="{{ $item->id }}"
-                                                    data-max="{{ App\Models\ProductVariation::find($item->attributes->id)->ProductQuantity }}">+</span>
-                                                <input readonly type="text" id="quantity-{{ $item->id }}"
-                                                    name="quantity" value="{{ $item->quantity }}" />
-                                                <input readonly type="hidden" name="item "
-                                                    value="{{ $item }}" />
-                                                <span class="minus" data-price="{{ $item->price }}"
-                                                    data-id="{{ $item->id }}">-</span>
-                                            </div>
-                                        </td>
-                                        <td class="product-subtotal">
-                                            <span id="totalPrice-{{ $item->id }}">
-                                                {{ number_format($item->price * $item->quantity) }}
-                                            </span>
-                                            تومان
-                                        </td>
-                                        <td class="product-remove">
-                                            <a href="#"><i class="sli sli-close"></i></a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="cart-shiping-update-wrapper">
-                                <div class="cart-shiping-update">
-                                    <a href="#"> ادامه خرید </a>
-                                </div>
-                                <div class="cart-clear">
-                                    <button> به روز رسانی سبد خرید </button>
-                                    <a href="#"> پاک کردن سبد خرید </a>
+                    @if (\Cart::isEmpty())
+                        <div class="container cart-empty-content">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6 text-center">
+                                    <i class="sli sli-basket"></i>
+                                    <h2 class="font-weight-bold my-4">سبد خرید خالی است.</h2>
+                                    <p class="mb-40">شما هیچ کالایی در سبد خرید خود ندارید.</p>
+                                    <a href="{{ route('home.index') }}"> صفحه اصلی </a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="table-content table-responsive cart-table-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th> تصویر محصول </th>
+                                        <th> نام محصول </th>
+                                        <th> فی </th>
+                                        <th> تعداد </th>
+                                        <th> قیمت </th>
+                                        <th> عملیات </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
+                                    @foreach (\Cart::getContent() as $item)
+                                        <tr>
+                                            <td class="product-thumbnail">
+                                                <a href="#"><img
+                                                        style="width: 100px; height: 100px; object-fit: cover"
+                                                        src="{{ env('PRODUCT_IMAGES_UPLOAD_PATH') . $item->associatedModel->primary_image }}"
+                                                        alt=""></a>
+                                            </td>
+                                            <td class="product-name">
+                                                <h4><a
+                                                        href="{{ route('home.product.details', $item->associatedModel->slug) }}">{{ $item->name }}</a>
+                                                </h4>
+                                                <div dir="rtl">
+                                                    {{ App\Models\Attribute::find($item->attributes->attribute_id)->name }}
+                                                    : {{ $item->attributes->value }}</div>
 
-                    <div class="row justify-content-between">
+                                            </td>
+                                            <td class="product-price-cart"><span class="amount">
+                                                    {{ number_format($item->price) }}
+                                                    تومان
+                                                    @if ($item->attributes->is_sale)
+                                                        <div dir="rtl" style="color:#ff3535;">
+                                                            {{ App\Models\ProductVariation::find($item->attributes->id)->percent_sale }}%
+                                                            تخفیف</div>
+                                                    @endif
+                                                </span></td>
+                                            <td class="product-quantity">
+                                                <div class="number">
+                                                    <span class="plus" data-price="{{ $item->price }}"
+                                                        data-id="{{ $item->id }}"
+                                                        data-max="{{ App\Models\ProductVariation::find($item->attributes->id)->ProductQuantity }}">+</span>
+                                                    <input class="quantity-input" readonly type="text" id="quantity-{{ $item->id }}"
+                                                        name="quantity" value="{{ $item->quantity }}" />
+                                                    <span class="minus" data-price="{{ $item->price }}"
+                                                        data-id="{{ $item->id }}">-</span>
+                                                </div>
+                                            </td>
+                                            <td class="product-subtotal">
+                                                <span id="totalPrice-{{ $item->id }}">
+                                                    {{ number_format($item->price * $item->quantity) }}
+                                                </span>
+                                                تومان
+                                            </td>
+                                            <td class="product-remove">
+                                                <a href="{{route('home.cart.delete' , $item->id)}}"><i class="sli sli-close"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
-                        <div class="col-lg-4 col-md-6">
-                            <div class="discount-code-wrapper">
-                                <div class="title-wrap">
-                                    <h4 class="cart-bottom-title section-bg-gray"> کد تخفیف </h4>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="cart-shiping-update-wrapper">
+                                    <div class="cart-shiping-update">
+                                        <a href="#"> ادامه خرید </a>
+                                    </div>
+                                    <div class="cart-clear">
+                                        <button> به روز رسانی سبد خرید </button>
+                                        <a href="#"> پاک کردن سبد خرید </a>
+                                    </div>
                                 </div>
-                                <div class="discount-code">
-                                    <p> لورم ایپسوم متن ساختگی با تولید سادگی </p>
-                                    {{-- <form>
+                            </div>
+                        </div>
+                        <div class="row justify-content-between">
+
+                            <div class="col-lg-4 col-md-6">
+                                <div class="discount-code-wrapper">
+                                    <div class="title-wrap">
+                                        <h4 class="cart-bottom-title section-bg-gray"> کد تخفیف </h4>
+                                    </div>
+                                    <div class="discount-code">
+                                        <p> لورم ایپسوم متن ساختگی با تولید سادگی </p>
+                                        <form>
                                         <input type="text" required="" name="name">
                                         <button class="cart-btn-2" type="submit"> ثبت </button>
-                                    </form> --}}
+                                    </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-4 col-md-12">
-                            <div class="grand-totall">
-                                <div class="title-wrap">
-                                    <h4 class="cart-bottom-title section-bg-gary-cart"> مجموع سفارش </h4>
-                                </div>
-                                <h5>
-                                    مبلغ سفارش :
-                                    <span>
-                                        {{\Cart::getTotal()}}
-                                        تومان
-                                    </span>
-                                </h5>
-                                <div class="total-shipping">
+                            <div class="col-lg-4 col-md-12">
+                                <div class="grand-totall">
+                                    <div class="title-wrap">
+                                        <h4 class="cart-bottom-title section-bg-gary-cart"> مجموع سفارش </h4>
+                                    </div>
+
                                     <h5>
-                                        هزینه ارسال :
-                                        <span>
-                                            30000
+                                        مبلغ سفارش :
+                                        <span id="totalamount">
+                                            {{ number_format(cardtotalamount()) }}
                                             تومان
                                         </span>
                                     </h5>
+                                    @if (totalesaleamount() > 0)
+                                        <h5>
+                                            مبلغ تخفیف :
+                                            <span id="totalesaleamount" style="color:#ff3535;">
+                                                {{ number_format(totalesaleamount()) }}
+                                                تومان
+                                            </span>
+                                        </h5>
+                                    @endif
+                                    <div class="total-shipping">
+                                        <h5>
+                                            هزینه ارسال :
+                                            @if (shiping() == 0)
+                                                <span>
+                                                    رایگان
+                                                </span>
+                                            @else
+                                                <span id="shiping">
+                                                    {{ number_format(shiping()) }}
+                                                </span>
+                                            @endif
+                                        </h5>
 
+                                    </div>
+                                    <h4 class="grand-totall-title">
+                                        جمع کل:
+                                        <span id="carttotal">
+                                            {{ number_format(\Cart::gettotal() + shiping()) }}
+                                            تومان
+                                        </span>
+                                    </h4>
+                                    <a href="./checkout.html"> ادامه فرآیند خرید </a>
                                 </div>
-                                <h4 class="grand-totall-title">
-                                    جمع کل:
-                                    <span>
-                                        70000
-                                        تومان
-                                    </span>
-                                </h4>
-                                <a href="./checkout.html"> ادامه فرآیند خرید </a>
                             </div>
                         </div>
-                    </div>
-
+                    @endif
                 </div>
             </div>
         </div>
 
-        <div class="container cart-empty-content" style="display: none;">
-            <div class="row justify-content-center">
-                <div class="col-md-6 text-center">
-                    <i class="sli sli-basket"></i>
-                    <h2 class="font-weight-bold my-4">سبد خرید خالی است.</h2>
-                    <p class="mb-40">شما هیچ کالایی در سبد خرید خود ندارید.</p>
-                    <a href="shop.html"> ادامه خرید </a>
-                </div>
-            </div>
-        </div>
+
     </div>
 @endsection

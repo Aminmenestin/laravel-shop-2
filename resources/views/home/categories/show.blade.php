@@ -47,8 +47,6 @@
 
         function filter() {
 
-            console.log('ok');
-
             let attributes = @json($attributes);
 
             attributes.map(attribute => {
