@@ -70,7 +70,7 @@
                                 </span>
 
                                 <span id="headertotalprice" class="cart-price">
-                                    {{number_format(\Cart::getTotal() + shiping())}}
+                                    {{ number_format(finalamount()) }}
                                 </span>
                                 <span>تومان</span>
                             </button>
@@ -118,11 +118,11 @@
                                             جمع کل :
                                         </h4>
                                         <span id="cardtotalprice" class="shop-total">
-                                            {{number_format(\Cart::getTotal() + shiping())}} تومان
+                                            {{ number_format(finalamount()) }} تومان
                                         </span>
                                     </div>
                                     <div class="shopping-cart-btn btn-hover text-center">
-                                        <a class="default-btn" href="checkout.html">
+                                        <a class="default-btn" href="{{route('home.order.index')}}">
                                             ثبت سفارش
                                         </a>
                                         <a class="default-btn" href="{{route('home.cart.index')}}">

@@ -22,7 +22,7 @@
 
             let variation = JSON.parse(this.value);
 
-            $('.variationPriceDiv').empty();
+            $(`.variationPriceDiv-${variation.product_id}`).empty();
 
             if (variation.is_sale == 1) {
                 let spanSale = $('<span />', {
@@ -33,14 +33,14 @@
                     class: 'old',
                     text: toPersianNum(number_format(variation.price)) + ' تومان'
                 })
-                $('.variationPriceDiv').append(spanSale);
-                $('.variationPriceDiv').append(spanprice);
+                $(`.variationPriceDiv-${variation.product_id}`).append(spanSale);
+                $(`.variationPriceDiv-${variation.product_id}`).append(spanprice);
             } else {
                 let spanSale = $('<span />', {
                     class: 'new',
                     text: toPersianNum(number_format(variation.price)) + ' تومان'
                 })
-                $('.variationPriceDiv').append(spanSale);
+                $(`.variationPriceDiv-${variation.product_id}`).append(spanSale);
             }
 
             $('.quantityInput').attr('data-max', variation.quantity);

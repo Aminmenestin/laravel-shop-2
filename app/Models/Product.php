@@ -111,7 +111,7 @@ class Product extends Model
     public function isSaleCheck(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->variations()->where('quantity', '>', 0)->where('sale_price', '!=', null)->where('date_on_sale_from', '<', Carbon::now())->where('date_on_sale_to', '>', Carbon::now())->orderBy('sale_price')->first() ?? false,
+            get: fn () => $this->variations()->where('quantity', '>', 0)->where('is_sale' , 1)->where('sale_price', '!=', null)->where('date_on_sale_from', '<', Carbon::now())->where('date_on_sale_to', '>', Carbon::now())->orderBy('sale_price')->first() ?? false,
         );
     }
 

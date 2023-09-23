@@ -13,7 +13,7 @@
                         <div class="col-md-7 col-sm-12 col-xs-12" style="direction: rtl;">
                             <div class="product-details-content quickview-content">
                                 <h2 class="text-right mb-4">{{ $product->name }}</h2>
-                                <div class="product-details-price variationPriceDiv">
+                                <div  class="product-details-price variationPriceDiv-{{$product->id}}">
                                     @if ($product->quantity_check == null)
                                         <div class="not-in-stock">
                                             <p>
@@ -77,7 +77,7 @@
                                                 <select name="variation" class="form-control variationSelect" id="variationSelect">
                                                     @foreach ($product->variations()->where('quantity', '>', 0)->get() as $variation)
                                                         <option
-                                                            value="{{ json_encode($variation->only(['id', 'quantity', 'sale_price', 'price', 'is_sale'])) }}"
+                                                            value="{{ json_encode($variation->only(['id' ,'product_id', 'quantity', 'sale_price', 'price', 'is_sale'])) }}"
                                                             {{ $productVariationSelected->id == $variation->id ? 'selected' : '' }}>
                                                             {{ $variation->value }}</option>
                                                     @endforeach

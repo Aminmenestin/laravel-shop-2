@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
-            $table->bigInteger('cell_phone')->unique();
+            $table->string('cell_phone')->unique();
             $table->integer('otp')->unique();
             $table->string('login_token')->unique();
             $table->date('token_expire')->unique()->default(null);

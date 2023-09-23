@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Attribute as AttributeModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -27,5 +28,11 @@ class ProductVariation extends Model
             get: fn () => $this->quantity
         );
     }
+
+
+    public function attribute(){
+        return $this->belongsTo(AttributeModel::class);
+    }
+
 
 }

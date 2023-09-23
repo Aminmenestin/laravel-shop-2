@@ -46,6 +46,8 @@
 
     @include('sweetalert::alert')
 
+    {!!  GoogleReCaptchaV3::init() !!}
+
 </body>
 
 </html>

@@ -51,8 +51,8 @@ class ProductVariationController extends Controller
                 'quantity' => $value['quantity'],
                 'sku' => $value['sku'],
                 'sale_price' => $value['sale_price'],
-                'date_on_sale_from' => $value['date_on_sale_from'] == null ? $variation->date_on_sale_from : convertTime($value['date_on_sale_from']),
-                'date_on_sale_to' =>  $value['date_on_sale_to'] == null ? $variation->date_on_sale_to : convertTime($value['date_on_sale_to']),
+                'date_on_sale_from' => $value['date_on_sale_from'] == null ? $variation->date_on_sale_from : convertTimeToGregorian($value['date_on_sale_from']),
+                'date_on_sale_to' =>  $value['date_on_sale_to'] == null ? $variation->date_on_sale_to : convertTimeToGregorian($value['date_on_sale_to']),
                 'is_sale' => $value['sale_price'] != null  && $variation['date_on_sale_from'] != null && $variation['date_on_sale_to'] !=null ?  1 : 0,
             ]);
         }

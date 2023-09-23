@@ -1,6 +1,8 @@
 <?php
 
 use Carbon\Carbon;
+use App\Models\Order;
+use App\Models\Coupon;
 use Hekmatinasser\Verta\Facades\Verta;
 
 function generateFileName($value)
@@ -20,7 +22,7 @@ function generateFileName($value)
 
 
 
-function convertTime($date)
+function convertTimeToGregorian($date)
 {
     if ($date == null) {
         return null;
@@ -36,7 +38,8 @@ function convertTime($date)
 }
 
 
-function shiping(){
+function shiping()
+{
 
     $shiping = 0;
     foreach (\Cart::getContent() as $item) {
@@ -50,7 +53,8 @@ function shiping(){
     return $shiping;
 }
 
-function cardtotalamount(){
+function cardtotalamount()
+{
 
     $cardtotalamount = 0;
     foreach (\Cart::getContent() as $item) {
@@ -59,11 +63,12 @@ function cardtotalamount(){
     return $cardtotalamount;
 }
 
-function totalesaleamount(){
+function totalesaleamount()
+{
 
     $totalesaleamount = 0;
     foreach (\Cart::getContent() as $item) {
-        if($item->attributes->is_sale){
+        if ($item->attributes->is_sale) {
             $totalesaleamount += $item->quantity * ($item->attributes->price - $item->attributes->sale_price);
         }
     }
@@ -71,4 +76,53 @@ function totalesaleamount(){
     return $totalesaleamount;
 }
 
+function finalamount()
+{
 
+    if (session()->exists('coupon')) {
+
+        if (session()->get('coupon.amount') > \Cart::gettotal() + shiping()) {
+            return 0;
+        } else {
+            return (\Cart::gettotal() + shiping()) - session()->get('coupon.amount');
+        }
+    } else {
+        return \Cart::gettotal() + shiping();
+    }
+}
+
+
+
+
+function checkcoupon($code)
+{
+
+    $coupon = Coupon::where('code', $code)->where('expired_at', '>', Carbon::now())->first();
+
+
+    if ($coupon == null) {
+        session()->forget('coupon');
+        return (['error' => 'این کد تخفیف وجود ندارد']);
+    }
+
+    if (!auth()->check()) {
+        return (['error' => 'لطفا ابتدا وارد سایت شوید']);
+    }
+
+    if (Order::where('user_id', auth()->id())->where('coupon_id', $coupon->code)->where('payment_status', 1)->exists()) {
+        return (['error' => 'این کد تخفیف قبلا استفاده شده است']);
+    }
+
+    if ($coupon->getRawOriginal('type') == 'amount') {
+        session()->put('coupon', ['id' => $coupon->id ,'code' => $coupon->code, 'amount' => $coupon->amount]);
+        return (['success' => 'کد تخفیف برای شما اعمال شد']);
+    } else {
+        $total = \Cart::gettotal();
+
+        $amount = ($total * $coupon->percentage) / 100 > $coupon->max_percentage_amount ? $coupon->max_percentage_amount : ($total * $coupon->percentage) / 100;
+
+        session()->put('coupon', ['code' => $coupon->code, 'amount' => $amount]);
+
+        return (['success' => 'کد تخفیف برای شما اعمال شد']);
+    }
+}

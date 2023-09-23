@@ -88,8 +88,13 @@ class CardController extends Controller
     public function delete(string $id)
     {
         if (\Cart::get($id)) {
+
             \Cart::remove($id);
-            alert()->success('محصول از سبد خرید حذف شد');
+
+            if(\Cart::getContent()->first() == null){
+                session()->forget('coupon');
+            }
+            alert()->warning('محصول از سبد خرید حذف شد');
             return redirect()->back();
         }
         else{
@@ -97,4 +102,35 @@ class CardController extends Controller
             return redirect()->back();
         }
     }
+
+    public function clear(){
+        \Cart::clear();
+        session()->forget('coupon');
+        alert()->warning('سبد خرید شما پاک شد');
+        return redirect()->back();
+    }
+
+
+    public function couponcheck(Request $request){
+        $request->validate([
+            'coupon' => 'required'
+        ]);
+
+        $result = checkcoupon($request->coupon);
+
+        if(array_key_exists('error' , $result )){
+            alert()->error($result['error']);
+        }
+        else{
+            alert()->success($result['success']);
+        }
+
+        return redirect()->back();
+    }
+
+
+    public function info(){
+        return ['shiping' => shiping() , 'totalamount' => cardtotalamount() , 'totalesaleamount' => totalesaleamount() , 'finalamount' => finalamount()];
+    }
+
 }

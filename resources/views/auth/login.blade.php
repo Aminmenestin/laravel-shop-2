@@ -7,72 +7,100 @@
 
 @section('script')
     <script>
-        $('#error').hide();
-        $('#checkOtpForm').hide();
-        $('#resent').hide();
-
-        $('#loginForm').on('submit', function(e) {
-            e.preventDefault();
-
-            let cell_phone = $('#cellphoneInput').val();
-
+        if ("{{ session()->has('login_token') }}") {
             $.ajax({
-                type: "POST",
-                url: "{{ url('/login') }}",
-                data: {
-                    cell_phone: cell_phone,
-                    _token: '{{ csrf_token() }}'
-                },
+                type: "GET",
+                url: "{{ route('home.login.preventReloading') }}",
                 success: function(response) {
-
-                    console.log(response)
-
-                    Swal.fire({
-                        icon: 'success',
-                        text: 'رمز یک بار مصرف برای شما ارسال شد',
-                        timer: 2000
-                    })
-
-                    $('#loginForm').fadeOut();
-                    $('#error').hide();
-                    $('#checkOtpForm').fadeIn();
-                    $('#otpcode').html(response.otp);
-                    timer();
-
-                    login_token = response.login_token;
-
-                },
-                error: function(response) {
-
-                    console.log(response)
-
-                    $('#error').fadeIn();
-                    $('#errorText').html(response.responseJSON.message);
-                },
+                    session = response.session;
+                    login_token = session.login_token
+                    sessionNumber = session.number
+                }
             });
+            $('#loginForm').hide();
+            $('#checkOtpForm').show();
+            $('#error').hide();
+            $('#resent').hide();
+            timer();
+        } else {
+            $('#error').hide();
+            $('#checkOtpForm').hide();
+            $('#resent').hide();
 
-        })
+            $('#loginForm').on('submit', function(e) {
+                e.preventDefault();
+
+                let cell_phone = $('#cellphoneInput').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('/login') }}",
+                    data: {
+                        cell_phone: cell_phone,
+                        'g-recaptcha-response':getReCaptchaV3Response('loginForm_id'),
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+
+                        refreshReCaptchaV3('loginForm_id','login');
+
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'رمز یک بار مصرف برای شما ارسال شد',
+                            timer: 2000
+                        })
+
+                        $('#loginForm').fadeOut();
+                        $('#error').hide();
+                        $('#checkOtpForm').fadeIn();
+                        $('#otpcode').html(response.otp);
+                        timer();
+
+                        login_token = response.login_token;
+
+                    },
+                    error: function(response) {
+
+                        refreshReCaptchaV3('loginForm_id','login');
+
+                        $('#error').fadeIn();
+                        $('#errorText').html(response.responseJSON.message);
+                    },
+                });
+
+            })
+
+        }
 
         function resentOTP() {
-            let cell_phone = $('#cellphoneInput').val();
 
             $('#checkOtpInput').val('');
             $('#error').hide();
 
+            if ("{{ session()->has('login_token') }}") {
+                cell_phone = sessionNumber
+            } else {
+                cell_phone = $('#cellphoneInput').val();
+            }
+
             $.ajax({
                 type: "POST",
                 url: "{{ url('/login') }}",
                 data: {
                     cell_phone: cell_phone,
+                    'g-recaptcha-response':getReCaptchaV3Response('loginForm_id'),
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
+
+                    refreshReCaptchaV3('loginForm_id','login');
 
                     Swal.fire({
                         icon: 'success',
                         text: 'رمز یک بار مصرف برای شما ارسال شد',
                         timer: 2000
                     })
+
 
                     $('#otpcode').html(response.otp);
                     $('#resent').hide();
@@ -84,6 +112,8 @@
                 },
                 error: function(response) {
 
+                    refreshReCaptchaV3('loginForm_id','login');
+
                     $('#error').fadeIn();
                     $('#errorText').html('response.responseJSON.message');
                 },
@@ -94,7 +124,12 @@
         $('#checkOtpForm').on('submit', function(e) {
             e.preventDefault();
 
+
             let otp = $('#checkOtpInput').val();
+
+            if ("{{ session()->has('login_token') }}") {
+                login_token = login_token
+            }
 
             $.ajax({
                 type: "POST",
@@ -102,9 +137,12 @@
                 data: {
                     otp: otp,
                     login_token: login_token,
+                    'g-recaptcha-response':getReCaptchaV3Response('checkOtpForm_id'),
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
+
+                    refreshReCaptchaV3('checkOtpForm_id','login');
 
                     Swal.fire({
                         icon: 'success',
@@ -112,10 +150,14 @@
                         timer: 2000
                     })
 
+
+
                     window.location = "{{ route('home.index') }}";
 
                 },
                 error: function(response) {
+
+                    refreshReCaptchaV3('checkOtpForm_id','login');
 
                     $('#error').fadeIn();
                     $('#errorText').html(response.responseJSON.message);
@@ -151,6 +193,17 @@
             }
 
             var timerInterval = setInterval(startTimer, 1000);
+        }
+
+
+        function wrongNumber() {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('home.login.wrongNumber') }}",
+                success: function(response) {
+                    window.location = "{{ route('home.login') }}";
+                }
+            });
         }
     </script>
 @endsection
@@ -201,6 +254,7 @@
                                             <div class="button-box d-flex justify-content-between">
                                                 <button type="submit">ارسال</button>
                                             </div>
+                                            <div id="loginForm_id"></div>
                                         </form>
                                         <form id="checkOtpForm">
 
@@ -210,6 +264,9 @@
                                                 <strong></strong>
                                             </div>
 
+                                            <div id="wrongNumber" style="text-align: start ; margin-bottom: 10px">
+                                                <a onclick="wrongNumber()">شماره اشتباه است ؟</a>
+                                            </div>
                                             <div class="button-box d-flex justify-content-between">
                                                 <button style=" height: 54.33px; border-radius: 0.25rem;"
                                                     type="submit">ورود</button>
@@ -222,7 +279,9 @@
                                                 </div>
                                             </div>
                                             <span class="ml-1" id="otpcode"></span>
+                                            <div id="checkOtpForm_id"></div>
                                         </form>
+                                        {!!  GoogleReCaptchaV3::render(['loginForm_id'=>'login' , 'checkOtpForm_id'=>'login']) !!}
                                     </div>
                                 </div>
                             </div>

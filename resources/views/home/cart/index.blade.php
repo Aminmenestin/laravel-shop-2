@@ -78,43 +78,39 @@
                     _token: "{{ csrf_token() }}"
                 },
                 success: function(response) {
-                    let shiping = 0;
-                    let totalamount = 0;
-                    let totalesaleamount = 0;
-                    let carttotal = 0;
-                    $.each(response, function(indexInArray, valueOfElement) {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ route('home.cart.info') }}",
+                        success: function(response) {
 
-                        if (valueOfElement.associatedModel.delivery_amount_per_product) {
-                            shiping += valueOfElement.quantity * valueOfElement.associatedModel.delivery_amount_per_product
-                        } else {
-                            shiping += valueOfElement.associatedModel.delivery_amount;
+                            $('#shiping').html(toPersianNum(formatNumber(response.shiping)));
+                            $('#totalamount').html(toPersianNum(formatNumber(response
+                                    .totalamount)) +
+                                ' تومان');
+                            $('#finalamount').html(toPersianNum(formatNumber(response
+                                .finalamount)) + ' تومان');
+                            $('#totalesaleamount').html(toPersianNum(formatNumber(
+                                response.totalesaleamount)) + ' تومان');
+
+                            $('#headertotalprice').html(toPersianNum(formatNumber(response
+                                .finalamount)));
+                            $('#cardtotalprice').html(toPersianNum(formatNumber(response
+                                .finalamount)));
+
                         }
-
-                        totalamount += valueOfElement.quantity * valueOfElement.attributes.price;
-
-                        if(valueOfElement.attributes.is_sale){
-                            totalesaleamount += valueOfElement.quantity * (valueOfElement.attributes.price-valueOfElement.attributes.sale_price);
-                        }
-
-                        carttotal += response[indexInArray].quantity * response[indexInArray].price;
                     });
 
-
-                    $('#shiping').html(toPersianNum(formatNumber(shiping)));
-                    $('#totalamount').html(toPersianNum(formatNumber(totalamount)) + ' تومان');
-                    $('#carttotal').html(toPersianNum(formatNumber(carttotal + shiping)) + ' تومان');
-                    $('#totalesaleamount').html(toPersianNum(formatNumber(totalesaleamount)) + ' تومان');
-                    $(`#headerQuantity-${id}`).html(response[id].quantity + ' x ' + toPersianNum(formatNumber(response[id].price)));
-                    $('#headertotalprice').html(toPersianNum(formatNumber(carttotal + shiping)));
-                    $('#cardtotalprice').html(toPersianNum(formatNumber(carttotal + shiping)));
-
-                },
-                error: function(response) {
-                    console.log(response)
-                },
+                    $(`#headerQuantity-${id}`).html(response[id].quantity + ' x ' +
+                        toPersianNum(formatNumber(
+                            response[id].price)));
+                }
             });
         }
 
+
+        function reload() {
+            location.reload();
+        }
     </script>
 @endsection
 
@@ -198,8 +194,9 @@
                                                     <span class="plus" data-price="{{ $item->price }}"
                                                         data-id="{{ $item->id }}"
                                                         data-max="{{ App\Models\ProductVariation::find($item->attributes->id)->ProductQuantity }}">+</span>
-                                                    <input class="quantity-input" readonly type="text" id="quantity-{{ $item->id }}"
-                                                        name="quantity" value="{{ $item->quantity }}" />
+                                                    <input class="quantity-input" readonly type="text"
+                                                        id="quantity-{{ $item->id }}" name="quantity"
+                                                        value="{{ $item->quantity }}" />
                                                     <span class="minus" data-price="{{ $item->price }}"
                                                         data-id="{{ $item->id }}">-</span>
                                                 </div>
@@ -211,7 +208,8 @@
                                                 تومان
                                             </td>
                                             <td class="product-remove">
-                                                <a href="{{route('home.cart.delete' , $item->id)}}"><i class="sli sli-close"></i></a>
+                                                <a href="{{ route('home.cart.delete', $item->id) }}"><i
+                                                        class="sli sli-close"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -226,8 +224,8 @@
                                         <a href="#"> ادامه خرید </a>
                                     </div>
                                     <div class="cart-clear">
-                                        <button> به روز رسانی سبد خرید </button>
-                                        <a href="#"> پاک کردن سبد خرید </a>
+                                        <button onclick="reload()"> به روز رسانی سبد خرید </button>
+                                        <a href="{{ route('home.cart.clear') }}"> پاک کردن سبد خرید </a>
                                     </div>
                                 </div>
                             </div>
@@ -241,10 +239,11 @@
                                     </div>
                                     <div class="discount-code">
                                         <p> لورم ایپسوم متن ساختگی با تولید سادگی </p>
-                                        <form>
-                                        <input type="text" required="" name="name">
-                                        <button class="cart-btn-2" type="submit"> ثبت </button>
-                                    </form>
+                                        <form action="{{ route('home.cart.couponcheck') }}" method="POST">
+                                            @csrf
+                                            <input type="text" required="" name="coupon">
+                                            <button class="cart-btn-2" type="submit"> ثبت </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -286,14 +285,23 @@
                                         </h5>
 
                                     </div>
+                                    @if (session()->exists('coupon'))
+                                        <h5>
+                                            مبلغ کد تخفیف:
+                                            <span style="color:#ff3535;">
+                                                {{ number_format(session()->get('coupon.amount')) }}
+                                            </span>
+                                        </h5>
+                                        <hr>
+                                    @endif
                                     <h4 class="grand-totall-title">
                                         جمع کل:
-                                        <span id="carttotal">
-                                            {{ number_format(\Cart::gettotal() + shiping()) }}
+                                        <span id="finalamount">
+                                            {{ number_format(finalamount()) }}
                                             تومان
                                         </span>
                                     </h4>
-                                    <a href="./checkout.html"> ادامه فرآیند خرید </a>
+                                    <a href="{{route('home.order.index')}}"> ادامه فرآیند خرید </a>
                                 </div>
                             </div>
                         </div>

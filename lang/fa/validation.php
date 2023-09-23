@@ -200,5 +200,8 @@ return [
         'rate'     => "امتیاز",
         'firstName'     => "نام",
         'lastName'     => "نام خانوادگی",
+        'province'     => "استان",
+        'number'     => "شماره تلفن همراه",
+        'postalCode'     => "کد پستی",
     ],
 ];
