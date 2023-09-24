@@ -78,11 +78,11 @@
              <i class="fa-solid fa-folder-open fa-lg"></i>
              <span> برند ها </span>
          </a>
-         <div id="collapsebrans" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+         <div id="collapsebrans" class="collapse active {{request()->is('admin-panel/brands*')? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
                  <h6 class="collapse-header"> صفحات برند ها : </h6>
-                 <a class="collapse-item" href="{{ route('admin.brands.index') }}"> نمایش برند ها </a>
-                 <a class="collapse-item" href="{{ route('admin.brands.create') }}"> ایجاد برند جدید </a>
+                 <a class="collapse-item {{request()->is('admin-panel/brands')? 'active' : '' }}" href="{{ route('admin.brands.index') }}"> نمایش برند ها </a>
+                 <a class="collapse-item {{request()->is('admin-panel/brands/create')? 'active' : '' }}" href="{{ route('admin.brands.create') }}"> ایجاد برند جدید </a>
              </div>
          </div>
      </li>
@@ -94,9 +94,9 @@
              <i class="fa-solid fa-folder-open fa-lg"></i>
              <span>ویژگی ها</span>
          </a>
-         <div id="collapseattributes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+         <div id="collapseattributes" class="collapse {{request()->is('admin-panel/attributes*')? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
-                 <h6 class="collapse-header"> صفحات برند ها : </h6>
+                 <h6 class="collapse-header"> صفحات ویژگی ها : </h6>
                  <a class="collapse-item" href="{{ route('admin.attributes.index') }}"> نمایش ویژگی ها </a>
                  <a class="collapse-item" href="{{ route('admin.attributes.create') }}"> ایجاد ویژگی جدید </a>
              </div>

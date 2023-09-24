@@ -156,6 +156,6 @@ Route::get('/test/{any?}' , function(){
     // session()->put('login' , true);
     // session()->flush();
     // session()->put('login_token' , ['login_token'=> 'login_token'  , 'number' => '09132969940' , 'expired_time' => (Carbon::now()->addMinutes(10)->toTimeString()) ]);
-    dd(request()->is('/test'));
+    dd(request()->is('test') ? 'test' : '');
     // dd(Carbon::format());
 })->name('test');
